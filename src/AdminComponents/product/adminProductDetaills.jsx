@@ -274,8 +274,6 @@ function ProductDetails() {
         "packof": null,
         "__v": 0 */}
                   <h1>{product.name}</h1>
-                  <p> <strong>Price:</strong> ₹{product.price} </p>
-                  <p> <strong>Discount Percentage:</strong> {product.discountPercentage}% </p>
                   <p> <strong>Price After Discount:</strong> ₹{product.FinalPrice} </p>
                   <p> <strong>shop name :  </strong> {product.shopname} </p>
                   <p> <strong>Category:</strong> {product.category.name} </p>
@@ -284,6 +282,8 @@ function ProductDetails() {
                   <p> <strong>packof:</strong> {product.packof} </p>
                   <p> <strong>active :</strong> {product.active ? "true" : "false" } </p>
 
+                  <p> <>Price:</> ₹{product.price} </p>
+                  <p> <>Discount Percentage:</> {product.discountPercentage}% </p>
                     
                     
  

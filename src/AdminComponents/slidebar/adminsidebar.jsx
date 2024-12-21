@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import "../../adminCss/sidebar/adminsidebar.css";
 import { Link } from "react-router-dom";
-import Logo from "../../images/SK Foods Logo 3.png";
 
 function Adminsidebar() {
   const [selectedItem, setSelectedItem] = useState("");
