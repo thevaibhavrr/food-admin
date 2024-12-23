@@ -191,7 +191,7 @@ function AllOrder() {
   const handleDeleteOrder = async () => {
     try {
       // Call the API to delete the order here
-      await makeApi(`/api/delete-product/${orderToDelete}`, "DELETE");
+      await makeApi(`/api/delete-order/${orderToDelete}`, "DELETE");
       setOrders(orders.filter((order) => order._id !== orderToDelete));
       handleCloseDeleteConfirm();
     } catch (error) {

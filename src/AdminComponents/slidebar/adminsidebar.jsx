@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import "../../adminCss/sidebar/adminsidebar.css";
 import { Link } from "react-router-dom";
@@ -6,6 +5,7 @@ import { Link } from "react-router-dom";
 function Adminsidebar() {
   const [selectedItem, setSelectedItem] = useState("");
   const [isOpen, setIsOpen] = useState(true); // State to track sidebar open/close
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle mobile navbar
 
   const handleMenuItemClick = (itemName) => {
     setSelectedItem(itemName);
@@ -15,73 +15,57 @@ function Adminsidebar() {
     setIsOpen(!isOpen);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className={`main_admin_sidebar ${isOpen ? 'open' : 'closed'}`}>
-      <button className="toggleButton" onClick={toggleSidebar}>
-        {isOpen ? 'Close' : 'Open'}
+      {/* Hamburger Menu for Mobile */}
+      <button className="hamburger-menu" onClick={toggleMobileMenu}>
+        &#9776; {/* Hamburger icon */}
       </button>
+
       <div className="admin_sidebar">
         <div className="admin_sidebar_header">
           <div className="admin_sidebar_header_logo">
-            <img loading="lazy"
+            <img 
+              loading="lazy"
               alt="logo"
               src="https://res.cloudinary.com/dunzldpvc/image/upload/v1724845466/S-logo.2bd09d912f48dc27084b_hcprcw.png"
               className="admin_sidebar_header_logo_img"
             />
           </div>
         </div>
-        <div className="admin_sidebar_menu">
-          <div className="admin_sidebar_menu_list">
-            {/* <Link className="Link_tag" to={"/admin/admin-dashboard"}>
-              <div
-                className={`admin_sidebar_menu_items ${selectedItem === "Dashboard" && "selected"
-                  }`}
-                onClick={() => handleMenuItemClick("Dashboard")}
-              >
-                Dashboard
-              </div>
-            </Link> */}
-            <Link className="Link_tag" to={"/admin/allproducts"}>
-              <div
-                className={`admin_sidebar_menu_items ${selectedItem === "All Products" && "selected"
-                  }`}
-                onClick={() => handleMenuItemClick("All Products")}
-              >
-                Products
-              </div>
-            </Link>
-            <Link className="Link_tag" to={"/admin/all-orders"}>
-              <div
-                className={`admin_sidebar_menu_items ${selectedItem === "All Orders" && "selected"
-                  }`}
-                onClick={() => handleMenuItemClick("All Orders")}
-              >
-                Orders
-              </div>
-            </Link>
-            <Link className="Link_tag" to={"/admin/all-categories"}>
-              <div
-                className={`admin_sidebar_menu_items ${selectedItem === "All catogory" && "selected"
-                  }`}
-                onClick={() => handleMenuItemClick("All catogory")}
-              >
-                Service
-              </div>
-            </Link>
-            {/* <Link className="Link_tag" to={"/admin/all-user"}>
-              <div className={`admin_sidebar_menu_items ${selectedItem === "All Users" && "selected"}`} onClick={() => handleMenuItemClick("All Users")} >Users</div ></Link>
-            <Link className="Link_tag" to={"/admin/subscribe-user"}>
-              <div className={`admin_sidebar_menu_items ${selectedItem === "Subscribe Users" && "selected"}`} onClick={() => handleMenuItemClick("Subscribe Users")} >Subscribe Users</div ></Link> */}
 
-            {/* <Link className="Link_tag" to={"/admin/offer-banner"}>
-              <div className={`admin_sidebar_menu_items ${selectedItem === "Banner" && "selected"}`} onClick={() => handleMenuItemClick("Banner")} >Banner</div >
-            </Link>
-            <Link className="Link_tag" to={"/admin/exist-offer-banner"}>
-              <div className={`admin_sidebar_menu_items ${selectedItem === " Exist offer Banner " && "selected"}`} onClick={() => handleMenuItemClick(" Exist offer Banner ")} >Exist offer Banner</div >
-            </Link> */}
+        {/* Navbar / Sidebar Menu List */}
+        <div className={`admin_sidebar_menu_list ${isMenuOpen ? 'show' : ''} ${window.innerWidth <= 500 ? 'mobile' : ''}`}>
+          <Link className="Link_tag" to={"/admin/allproducts"}>
+            <div
+              className={`admin_sidebar_menu_items ${selectedItem === "All Products" ? "selected" : ""}`}
+              onClick={() => handleMenuItemClick("All Products")}
+            >
+              Products
+            </div>
+          </Link>
 
+          <Link className="Link_tag" to={"/admin/all-orders"}>
+            <div
+              className={`admin_sidebar_menu_items ${selectedItem === "All Orders" ? "selected" : ""}`}
+              onClick={() => handleMenuItemClick("All Orders")}
+            >
+              Orders
+            </div>
+          </Link>
 
-          </div>
+          <Link className="Link_tag" to={"/admin/all-categories"}>
+            <div
+              className={`admin_sidebar_menu_items ${selectedItem === "Service" ? "selected" : ""}`}
+              onClick={() => handleMenuItemClick("Service")}
+            >
+              Service
+            </div>
+          </Link>
         </div>
       </div>
     </div>
