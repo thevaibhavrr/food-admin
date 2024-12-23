@@ -135,6 +135,7 @@ function AllOrder() {
 
                   <div className="order_details all_order_details">
                     <div><b>Address:</b> {order.address}</div>
+                    <div><b>Name:</b> {order?.username}</div>
                     <div><b>Mobile Number:</b> {order.mobileNumber}</div>
                     <div><b>Status:</b> {order.status}</div>
                     <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
