@@ -99,7 +99,7 @@ function Adminsidebar() {
     <div className={`main_admin_sidebar ${isOpen ? 'open' : 'closed'}`}>
       {/* Sidebar Toggle Button */}
       <button className="toggleButton" onClick={toggleSidebar}>
-        {isOpen ? "Hide Sidebar" : "Show Sidebar"}
+        {isOpen ? "Hide" : "Show"}
       </button>
 
       {/* Hamburger Menu for Mobile */}
