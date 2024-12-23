@@ -1,138 +1,3 @@
-
-// import React, { useEffect, useState } from "react";
-// import "../../adminCss/order/allorder.css";
-// import { makeApi } from "../../api/callApi";
-// import { Link } from "react-router-dom";
-// import UpdateOrderPopup from "./updateorder";
-// import Loader from "../../components/loader/loader";
-
-// function AllOrder() {
-//   const [loading, setLoading] = useState(false);
-//   const [orders, setOrders] = useState([]);
-//   const [status, setStatus] = useState("Pending");
-//   const [selectedOrderId, setSelectedOrderId] = useState(null);
-//   const [selectedStatus, setSelectedStatus] = useState("Pending");
-
-//   const fetchOrders = async () => {
-//     try {
-//       setLoading(true);
-//       const response = await makeApi(`/api/get-all-second-order?status=${status}`, "GET");
-//       setOrders(response.data.orders);  // Assuming response.data.orders contains the array of orders
-//     } catch (error) {
-//       console.log(error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchOrders();
-//   }, [status]);
-
-//   const handleStatusChange = (newStatus) => {
-//     setStatus(newStatus);
-//     setSelectedStatus(newStatus);
-//   };
-
-//   const handleOpenPopup = (orderId) => {
-//     setSelectedOrderId(orderId);
-//   };
-
-//   const handleClose = () => {
-//     setSelectedOrderId(null);
-//   };
-
-//   const formatNumber = (number) => {
-//     return Math.round(number).toString();
-//   };
-
-//   return (
-//     <div className="all-orders-container">
-//       <div className="all_orders_status_buttons">
-//         <button
-//           className={`admin_add_product_button ${selectedStatus === "Pending" ? "selectedStatus" : ""}`}
-//           onClick={() => handleStatusChange("Pending")}
-//         >
-//           Pending Orders
-//         </button>
-//         <button
-//           className={`admin_add_product_button ${selectedStatus === "Cancelled" ? "selectedStatus" : ""}`}
-//           onClick={() => handleStatusChange("Cancelled")}
-//         >
-//           Cancelled Orders
-//         </button>
-//         <button
-//           className={`admin_add_product_button ${selectedStatus === "Shipped" ? "selectedStatus" : ""}`}
-//           onClick={() => handleStatusChange("Shipped")}
-//         >
-//           Shipped Orders
-//         </button>
-//         <button
-//           className={`admin_add_product_button ${selectedStatus === "Delivered" ? "selectedStatus" : ""}`}
-//           onClick={() => handleStatusChange("Delivered")}
-//         >
-//           Delivered Orders
-//         </button>
-//       </div>
-
-//       <div className="order-list">
-//         {loading ? (
-//           <Loader />
-//         ) : (
-//           <div className="main_order_list_container">
-//             {orders.map((order) => (
-//               <div key={order._id} className="order_list_container">
-//                 <div>
-//                   {order.products.map((item) => (
-//                     <div key={item._id} className="order_item_details">
-//                       <div>
-//                         <img
-//                           loading="lazy"
-//                           src={item.productId.thumbnail}
-//                           alt={item.productId.name}
-//                           className="all_order_thumbnail"
-//                         />
-//                       </div>
-//                       <div>
-//                         <p><b>Name:</b> {item.productId.name}</p>
-//                         <p><b>Price:</b> ₹{item.productId.FinalPrice}</p>
-//                         <p><b>Quantity:</b> {item.quantity}</p>
-                      
-//                       </div>
-//                     </div>
-//                   ))}
-//                 </div>
-
-//                 <div className="order_details all_order_details">
-//                 <div><b>Address:</b> {order.address}</div>
-//                 <div><b>mobileNumber:</b> {order.mobileNumber}</div>
-
-//                   {/* <div><b>Order Id:</b> {order._id}</div> */}
-//                   <div><b>Status:</b> {order.status}</div>
-//                   <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
-//                 </div>
-
-//                 <div className="all_order_buttons_div">
-//                   <Link to={`/admin/order/${order._id}`} className="all_order_order_view_button">View Order</Link>
-//                   <div
-//                     className="all_order_order_update_button"
-//                     onClick={() => handleOpenPopup(order._id)}
-//                   >
-//                     Update Order
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//       </div>
-
-//       {selectedOrderId && <UpdateOrderPopup orderId={selectedOrderId} onClose={handleClose} />}
-//     </div>
-//   );
-// }
-
-// export default AllOrder;
 import React, { useEffect, useState } from "react";
 import "../../adminCss/order/allorder.css";
 import { makeApi } from "../../api/callApi";
@@ -242,61 +107,67 @@ function AllOrder() {
           <Loader />
         ) : (
           <div className="main_order_list_container">
-            {orders.map((order) => (
-              <div key={order._id} className="order_list_container">
-                <div>
-                  {order.products.map((item) => (
-                    <div key={item._id} className="order_item_details">
-                      <div>
-                        <img
-                          loading="lazy"
-                          src={item.productId.thumbnail}
-                          alt={item.productId.name}
-                          className="all_order_thumbnail"
-                        />
+            {/* If no orders, display "No Orders" message */}
+            {orders.length === 0 ? (
+              <div className="no-orders-message">No Orders Available</div>
+            ) : (
+              orders.map((order) => (
+                <div key={order._id} className="order_list_container">
+                  <div>
+                    {order.products.map((item) => (
+                      <div key={item._id} className="order_item_details">
+                        <div>
+                          <img
+                            loading="lazy"
+                            src={item.productId.thumbnail}
+                            alt={item.productId.name}
+                            className="all_order_thumbnail"
+                          />
+                        </div>
+                        <div>
+                          <p><b>Name:</b> {item.productId.name}</p>
+                          <p><b>Price:</b> ₹{item.productId.FinalPrice}</p>
+                          <p><b>Quantity:</b> {item.quantity}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p><b>Name:</b> {item.productId.name}</p>
-                        <p><b>Price:</b> ₹{item.productId.FinalPrice}</p>
-                        <p><b>Quantity:</b> {item.quantity}</p>
-                      </div>
+                    ))}
+                  </div>
+
+                  <div className="order_details all_order_details">
+                    <div><b>Address:</b> {order.address}</div>
+                    <div><b>Mobile Number:</b> {order.mobileNumber}</div>
+                    <div><b>Status:</b> {order.status}</div>
+                    <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
+                    <div style={{ backgroundColor: "green", padding: "5px 10px", borderRadius: "5px" }} ><b>Created At:</b> {formatDate(order.createdAt)}</div> {/* Display local creation time */}
+                    <div> <b>delivered At:</b> {formatDate(order.deliveredAt)} </div>
+                  </div>
+
+                  <div className="all_order_buttons_div">
+                    <Link to={`/admin/order/${order._id}`} className="all_order_order_view_button">View Order</Link>
+                    <div
+                      className="all_order_order_update_button"
+                      onClick={() => handleOpenPopup(order._id)}
+                    >
+                      Update Order
                     </div>
-                  ))}
-                </div>
-
-                <div className="order_details all_order_details">
-                  <div><b>Address:</b> {order.address}</div>
-                  <div><b>Mobile Number:</b> {order.mobileNumber}</div>
-                  <div><b>Status:</b> {order.status}</div>
-                  <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
-                  <div><b>Created At:</b> {formatDate(order.createdAt)}</div> {/* Display local creation time */}
-                </div>
-
-                <div className="all_order_buttons_div">
-                  <Link to={`/admin/order/${order._id}`} className="all_order_order_view_button">View Order</Link>
-                  <div
-                    className="all_order_order_update_button"
-                    onClick={() => handleOpenPopup(order._id)}
-                  >
-                    Update Order
-                  </div>
-                  <div
-                    className="all_order_order_delete_button"
-                    onClick={() => handleOpenDeleteConfirm(order._id)}
-                    style={{
-                      backgroundColor: "#f44336",
-                      color: "white",
-                      padding: "8px 16px",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      marginLeft: "10px",
-                    }}
-                  >
-                    Delete Order
+                    <div
+                      className="all_order_order_delete_button"
+                      onClick={() => handleOpenDeleteConfirm(order._id)}
+                      style={{
+                        backgroundColor: "#f44336",
+                        color: "white",
+                        padding: "8px 16px",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      Delete Order
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
       </div>

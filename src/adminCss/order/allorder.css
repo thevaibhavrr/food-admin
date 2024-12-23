@@ -91,3 +91,45 @@
 .all_order_order_update_button:hover {
   background-color: var(--gay-bg-color);
 }
+
+/* Styling for the "No Orders" message */
+.no-orders-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+  font-size: 24px;
+  color: #555;
+  text-align: center;
+  font-weight: bold;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.order-filter-bar {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 0;
+}
+
+.date-filter-button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.date-filter-button.selected {
+  background-color: #0056b3;
+}
+
+.date-picker {
+  padding: 8px;
+  margin-left: 10px;
+}
+
