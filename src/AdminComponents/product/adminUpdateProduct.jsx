@@ -235,6 +235,8 @@ import { makeApi } from "../../api/callApi";
 import Loader from "../../components/loader/loader";
 import uploadToCloudinary from "../../utils/cloudinaryUpload"; 
 import { fetchCategory } from "../../utils/CFunctions";
+import { ToastContainer, toast } from "react-toastify";
+
 
 function UpdateProduct() {
   const navigate = useNavigate();
@@ -256,6 +258,7 @@ function UpdateProduct() {
     minorderquantity: "",
     packof: "",
     active: "",
+    setOurprice: "",
   });
 
   // Fetch categories and product data
@@ -282,6 +285,7 @@ function UpdateProduct() {
           minorderquantity: productData.minorderquantity || "",
           packof: productData.packof || "",
           active: productData.active || "", // Ensure 'active' status is set
+          ourprice: productData.ourprice || "",
         });
 
         // Fetch categories
@@ -345,9 +349,9 @@ function UpdateProduct() {
     try {
       setUpdateLoader(true);
       await makeApi(`/api/update-product/${productId}`, "PUT", formData);
-
-      console.log("Product updated successfully!");
-      navigate("/admin/allproducts");
+      toast.success("Product updated successfully!");
+      // console.log("Product updated successfully!");
+      // navigate("/admin/allproducts");
     } catch (error) {
       console.error("Error updating product:", error);
     } finally {
@@ -378,6 +382,7 @@ function UpdateProduct() {
               </svg>
             </Link>
           </div>
+          <ToastContainer style={{ width: '300px' }} position="top-center" autoClose={3000} />
 
           <div className="update-product-container">
             <h2>Update Product</h2>
@@ -435,6 +440,16 @@ function UpdateProduct() {
                     readOnly
                   />
                 </div>
+              </div>
+              {/* ourprice */}
+              <div className="form-group">
+                <label>Our Price:</label>
+                <input
+                  type="number"
+                  name="ourprice"
+                  value={formData.ourprice}
+                  onChange={handleChange}
+                />
               </div>
 
               {/* Category Section */}

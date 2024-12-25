@@ -20,6 +20,7 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
         );
         const orderData = response.data.order;
         setOrder(orderData);
+        window.location.reload();
         setUpdatedOrderData({
           paymentMethod: orderData?.paymentMethod,
           deliveredAt: orderData?.deliveredAt ? new Date(orderData?.deliveredAt).toISOString().slice(0, 16) : "",

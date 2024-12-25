@@ -20,6 +20,7 @@ function AdminaddProduct() {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [minorderquantity, setMinorderquantity] = useState("");
   const [packof, setPackof] = useState("");
+  const [ourprice, setOurprice] = useState();
   const [FinalPrice, setFinalPrice] = useState(0);
   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
 
@@ -59,12 +60,14 @@ function AdminaddProduct() {
         availableTimes,
         minorderquantity,
         packof,
+        ourprice
       });
 
       toast.success("Product added successfully!");
 
       // Clear the form fields after successful product creation
       setName("");
+      setOurprice();
       setShopname("");
       setPrice("");
       setDiscountPercentage(0);
@@ -172,6 +175,17 @@ function AdminaddProduct() {
             placeholder="Final Price"
             value={calculateFinalPrice(price, discountPercentage)}
             readOnly
+          />
+        </div>
+        {/* our price */}
+        <div className="section-wrapper">
+          <h3>Our Price</h3>
+          <input
+            type="number"
+            className="add_product_input_filed"
+            placeholder="Our Price"
+            value={ourprice}
+            onChange={(e) => setOurprice(e.target.value)}
           />
         </div>
 
