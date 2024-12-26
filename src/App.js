@@ -10,8 +10,9 @@ function App() {
     <div>
       <Routes>
         <Route path="/admin/*" element={<Admin />} />{" "}
-        <Route path="/" element={<Admindasboard />} />
-        <Route path="/today" element={<TodayReport />} />
+        <Route path="/" element={<Admin />} />{" "}
+        {/* <Route path="/" element={<Admindasboard />} /> */}
+        {/* <Route path="/today" element={<TodayReport />} /> */}
       </Routes>
     </div>
   );
