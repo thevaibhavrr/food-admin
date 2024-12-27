@@ -206,13 +206,20 @@
 
   /* Adjust product list layout */
   .product-list {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; */
+    display: flex;
+    flex-wrap: wrap;
     gap: 15px;
   }
 
   /* Resize product cards */
   .product-card {
     padding: 15px;
+    height: 450px;
+    width: 200px;
+  }
+  .admin_page_product_thumbnail{
+    height: 150px;
   }
 
   .product-card h3 {
@@ -231,11 +238,21 @@
     padding: 8px;
     font-size: 0.9rem;
   }
+  .view_button_all_product{
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-top: 4px;
+  }
 
   /* Button adjustments */
   .all_products_page_button button {
-    width: 100%;
-margin: 5px 0;
+    width: 80%;
+    padding: 5px 5px;
+   margin: 5px 0;
+  }
+  .edit_button_all_product{
+    width: 80%;
+    margin: 5px 0;
   }
 
   /* Pagination adjustments */
