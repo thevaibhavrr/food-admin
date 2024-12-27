@@ -138,15 +138,15 @@ function AllOrder() {
                         <div>
                           <img
                             loading="lazy"
-                            src={item.productId.thumbnail}
-                            alt={item.productId.name}
+                            src={item?.productId?.thumbnail}
+                            alt={item?.productId?.name}
                             className="all_order_thumbnail"
                           />
                         </div>
                         <div>
-                          <p><b>Name:</b> {item.productId.name}</p>
-                          <p><b>Price:</b> ₹{item.productId.FinalPrice}</p>
-                          <p><b>Quantity:</b> {item.quantity}</p>
+                          <p><b>Name:</b> {item?.productId?.name}</p>
+                          <p><b>Price:</b> ₹{item?.productId?.FinalPrice}</p>
+                          <p><b>Quantity:</b> {item?.quantity}</p>
                         </div>
                       </div>
                     ))}
@@ -389,11 +389,11 @@ export default AllOrder;
 //           orders.map((order) => (
 //             <div key={order._id} className="order_list_container">
 //               <div>
-//                 {order.products.map((item) => (
-//                   <div key={item._id} className="order_item_details">
+//                 {order.products.map((item?) => (
+//                   <div key={item?._id} className="order_item_details">
 //                     <div>
 //                       <img
-//                         src={item.productId.thumbnail}
+//                         src={item?.productId.thumbnail}
 //                         alt={item.productId.name}
 //                         className="all_order_thumbnail"
 //                       />
