@@ -71,6 +71,14 @@ function Adminsidebar() {
               Service
             </div>
           </Link>
+          <Link className="Link_tag" to={"/admin/saller"}>
+            <div
+              className={`admin_sidebar_menu_items ${selectedItem === "Saller" ? "selected" : ""}`}
+              onClick={() => handleMenuItemClick("Saller")}
+            >
+              Saller
+            </div>
+          </Link>
         </div>
       </div>
     </div>

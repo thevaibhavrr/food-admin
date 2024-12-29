@@ -25,6 +25,7 @@ import AddEditBanner from "../AdminComponents/Offer/EditBanner";
 import AllExistOfferBanner from "../AdminComponents/Offer/existOfferBanner/Banner";
 import AddExistOfferBanner from "../AdminComponents/Offer/existOfferBanner/AddBanner";
 import EditExistOfferBanner from "../AdminComponents/Offer/existOfferBanner/EditBanner";
+import Adduser from "../AdminComponents/User/Adduser";
 
 function Admin() {
 	return (
@@ -91,6 +92,8 @@ function Admin() {
 						path="/admin-dashboard"
 						element={<Admindasboard />}
 					/>
+        <Route path="/saller" element={<Adduser />} />{" "}
+
 
 					{/* email send */}
 					<Route
