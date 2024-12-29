@@ -5,7 +5,7 @@ import "../../adminCss/User/allUser.css"
 function AllUser() {
     // difine state
     const [User, setUsers] = useState([])
-    // get all users
+    // get all users 
     const getAllUser = async () => {
         try {
             const response = await makeApi("/api/get-all-users", "GET")
