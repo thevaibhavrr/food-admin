@@ -126,6 +126,7 @@ const AddCategory = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
   const [thumbnail, setThumbnail] = useState("");
+  const [closed, setClosed] = useState("false");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,6 +134,7 @@ const AddCategory = () => {
       const response = await makeApi("/api/add-category", "POST", {
         name: name,
         image: thumbnail,
+        closed: closed
       });
       alert("Category added successfully");
       setName("");
@@ -200,6 +202,19 @@ const AddCategory = () => {
                 className="form-control"
                 onChange={handleThumbnailUpload}
               />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="closed" className="form-label">Closed:</label>
+              <select
+                id="closed"
+                className="form-select"
+                value={closed}
+                onChange={(e) => setClosed(e.target.value)}
+              >
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+              </select>
             </div>
 
             {thumbnail && (

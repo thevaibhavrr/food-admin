@@ -130,6 +130,7 @@ const EditCategory = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
+  const [closed, setClosed] = useState("");
 
   const { Id } = useParams(); // Get category ID from URL
   const navigate = useNavigate(); // Use to navigate after successful update
@@ -143,6 +144,7 @@ const EditCategory = () => {
         setName(category.name);
         setDescription(category.active);
         setThumbnail(category.image); // Assuming `image` is the category image URL
+        setClosed(category.closed);
       } catch (error) {
         console.error("Error fetching category details:", error);
         setErrorMessage("Error fetching category details.");
@@ -232,6 +234,25 @@ const EditCategory = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
+
+            <div className="mb-3">
+              <label htmlFor="closed" className="form-label">
+                Closed:
+              </label>
+                  {/* dropdown */}
+
+              <select
+                id="closed"
+                className="form-select"
+                value={closed}
+                onChange={(e) => setClosed(e.target.value)}
+              >
+                <option value="false">false</option>
+                <option value="true">true</option>
+              </select>
+
+            </div>
+
             <div className="mb-3">
               <label htmlFor="file" className="form-label">
                 Category Image:

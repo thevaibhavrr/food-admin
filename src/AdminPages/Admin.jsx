@@ -92,7 +92,7 @@ function Admin() {
 						path="/admin-dashboard"
 						element={<Admindasboard />}
 					/>
-        <Route path="/saller" element={<Adduser />} />{" "}
+					<Route path="/saller" element={<Adduser />} />{" "}
 
 
 					{/* email send */}

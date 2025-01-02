@@ -193,7 +193,7 @@ function AllOrder() {
                     >
                       Update Order
                     </div>
-                    <div
+                    {/* <div
                       className="all_order_order_delete_button"
                       onClick={() => handleOpenDeleteConfirm(order._id)}
                       style={{
@@ -206,7 +206,7 @@ function AllOrder() {
                       }}
                     >
                       Delete Order
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))
