@@ -344,7 +344,7 @@ const Allproduct = () => {
                   <LazyLoadImage
                     effect="blur"
                     loading="lazy"
-                    src={product.thumbnail}
+                    src={product.thumbnail.replace('http://', 'https://')}
                     alt={product.name}
                     className={"admin_page_product_thumbnail"}
                   />

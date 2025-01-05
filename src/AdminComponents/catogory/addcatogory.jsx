@@ -219,7 +219,7 @@ const AddCategory = () => {
 
             {thumbnail && (
               <div className="mb-3 text-center">
-                <img src={thumbnail} alt="Thumbnail Preview" style={{ maxWidth: "150px" }} />
+                <img src={thumbnail.replace('http://', 'https://')} alt="Thumbnail Preview" style={{ maxWidth: "150px" }} />
               </div>
             )}
 

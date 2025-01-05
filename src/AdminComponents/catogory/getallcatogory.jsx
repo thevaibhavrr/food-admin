@@ -200,7 +200,7 @@ function Getallcatogory() {
                   <div>
                     <h3>{category?.name}</h3>
                     <img
-                      src={category?.image}
+                      src={category?.image.replace('http://', 'https://')}
                       alt={category?.name}
                       style={{ width: "100px", height: "100px" }}
                     />

@@ -267,7 +267,7 @@ const EditCategory = () => {
             </div>
             {thumbnail && (
               <div>
-                <img src={thumbnail} alt="Thumbnail" style={{ maxWidth: "100px" }} />
+                <img src={thumbnail.replace('http://', 'https://')} alt="Thumbnail" style={{ maxWidth: "100px" }} />
               </div>
             )}
             <button type="submit" className="btn btn-primary mt-3">

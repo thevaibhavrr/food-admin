@@ -18,7 +18,7 @@ function AllOrder() {
       setLoading(true);
       const response = await makeApi(`/api/get-all-second-order?status=${status}`, "GET");
       // revers data
-      const ndata = response.data.orders.reverse();
+      const ndata = response.data.orders;
       setOrders(ndata);
     } catch (error) {
       console.log(error);
