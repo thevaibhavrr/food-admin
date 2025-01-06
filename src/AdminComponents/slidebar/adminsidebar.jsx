@@ -26,8 +26,6 @@ function Adminsidebar() {
       const checkUserRole = async () => {
         try {
           const response = await makeApi("/api/my-profile", "GET");
-          console.log(response);
-          // Assuming the response contains a `user` object with the `role`
           setUserRole(response.data.user.role); // Set the user's role to state
         } catch (error) {
           console.log(error);

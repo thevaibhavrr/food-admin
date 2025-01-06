@@ -29,9 +29,7 @@ function AddUserForm() {
         password,
         role
       });
-      toast.success(response.data.message, {
-        onClose: () => navigate("/admin/user-list")
-      });
+     
     } catch (error) {
       console.error("Error adding user:", error.response?.data);
       toast.error(error.response?.data?.message || "An error occurred.");

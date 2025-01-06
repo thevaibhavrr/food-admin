@@ -10,7 +10,7 @@ function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
   // Only set Islogin to true after successful login (but do not re-render login form).
   const [isLogin, setIsLogin] = useState(false);
 
@@ -23,19 +23,15 @@ function LoginForm() {
       return;
     }
     if (!password) {
-      toast.error('Please fill password');  
+      toast.error('Please fill password');
       return;
     }
 
     try {
       setLoading(true);
       const response = await makeApi("/api/login-user", "POST", { password, username });
-
+      navigate("/admin/all-orders");
       localStorage.setItem("token", response.data.token);
-      
-      if (response.data.user.role === "admin") {
-        navigate("/admin/all-orders");
-      }
     } catch (error) {
       console.error('Error sending data:', error.response?.data);
       toast.error(error.response?.data?.message || "An error occurred");
@@ -47,7 +43,7 @@ function LoginForm() {
   // Check if a user is already logged in when the component mounts
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      const checkUserRole = async () => { 
+      const checkUserRole = async () => {
         try {
           const response = await makeApi("/api/my-profile", "GET");
           navigate("/admin/all-orders");
@@ -69,10 +65,10 @@ function LoginForm() {
 
           {/* Username Input */}
           <div className="inputContainer">
-            <input 
-              type="text" 
-              className="inputField" 
-              id="username" 
+            <input
+              type="text"
+              className="inputField"
+              id="username"
               placeholder="Enter your username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -81,10 +77,10 @@ function LoginForm() {
 
           {/* Password Input */}
           <div className="inputContainer">
-            <input 
-              type="password" 
-              className="inputField" 
-              id="password" 
+            <input
+              type="password"
+              className="inputField"
+              id="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
