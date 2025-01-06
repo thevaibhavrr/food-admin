@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Route, Routes } from "react-router"
 
 import Allproduct from "../AdminComponents/product/Allproduct";
@@ -26,14 +26,43 @@ import AllExistOfferBanner from "../AdminComponents/Offer/existOfferBanner/Banne
 import AddExistOfferBanner from "../AdminComponents/Offer/existOfferBanner/AddBanner";
 import EditExistOfferBanner from "../AdminComponents/Offer/existOfferBanner/EditBanner";
 import Adduser from "../AdminComponents/User/Adduser";
+import AddUserForm from "../components/auth/Adduser";
+import { makeApi } from "../api/callApi";
 
 function Admin() {
+	const [userRole, setUserRole] = useState(null); // Store user role
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			window.location.href = "/";
+		}
+	}, []);
+
+
+	useEffect(() => {
+		if (localStorage.getItem("token")) {
+			const checkUserRole = async () => {
+				try {
+					const response = await makeApi("/api/my-profile", "GET");
+					// Assuming the response contains a `user` object with the `role`
+					setUserRole(response.data.user.role); // Set the user's role to state
+				} catch (error) {
+					console.log(error);
+				}
+			};
+			checkUserRole();
+		}
+	}, []);
+
 	return (
 		<div className="main_admin_pages">
-			<div className="admin_page_sidebar_div">
-				<Adminsidebar />
-			</div>
-			<div className="admin_page_main_div">
+			{userRole === "admin" && (
+				<div className="admin_page_sidebar_div">
+					<Adminsidebar />
+				</div>
+			)}
+			<div className="admin_page_main_div mt-3">
 				<Routes>
 					<Route
 						path="/sidebar"
@@ -85,9 +114,11 @@ function Admin() {
 					<Route path="/add-coupan" element={<AddCoupan />} />
 					<Route path="/update-coupan/:Id" element={<EditCoupan />} />
 					<Route path="/coupan-details/:Id" element={<CouponDetails />} />
+
+
 					{/*           
 
-				{/* admin */}
+{/* admin */}
 					<Route
 						path="/admin-dashboard"
 						element={<Admindasboard />}
@@ -102,6 +133,7 @@ function Admin() {
 					/>
 
 					{/* user */}
+					<Route path="/new-user" element={<AddUserForm />} />{" "}
 					<Route
 						path="/all-user"
 						element={<AllUser />}
