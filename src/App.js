@@ -22,7 +22,7 @@ function App() {
 
         <Route path="/admin/*" element={<Admin />} />{" "}
         <Route path="/s" element={<Adduser />} />{" "}
-        {/* <Route path="/" element={<Admindasboard />} /> */}
+        <Route path="/admin" element={<Admindasboard />} />
         {/* <Route path="/today" element={<TodayReport />} /> */}
       </Routes>
     </div>
