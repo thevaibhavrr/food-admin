@@ -180,8 +180,8 @@ function AllOrder() {
                       <option value="" disabled>Select Caller</option>
                       <option value="Vaibhav">Vaibhav</option>
                       <option value="Manish">Manish</option>
-                      <option value="Rakesh">Rakesh</option>
-                      <option value="Mahesh">Mahesh</option>
+                      <option value="Kana">Kana</option>
+                      <option value="vipin">Vipin</option>
                     </select>
 
                   </div>
