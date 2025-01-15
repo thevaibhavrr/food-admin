@@ -134,7 +134,8 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
                   <option value="" disabled>Select Deliverer</option>
                   <option value="Vaibhav">Vaibhav</option>
                   <option value="Manish">Manish</option>
-                  <option value="Rakesh">Rakesh</option>
+                  <option value="Kana">Kana</option>
+                      <option value="vipin">Vipin</option>
                 </select>
               </div>
             )}
