@@ -386,7 +386,7 @@ function AllOrder() {
   return (
     <div className="all-orders-container">
       {/* Refresh Button */}
-      <button onClick={handleRefresh} className="refresh-button">
+      <button onClick={handleRefresh} className="refresh-button mb-3">
         Refresh Orders
       </button>
 
@@ -457,6 +457,8 @@ function AllOrder() {
                       <b>Mobile Number:</b>
                       <a href={`tel:${order.mobileNumber}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         {order.mobileNumber}
+
+                   <button style={{ marginLeft: "10px" , backgroundColor: "yellow", padding: "5px 10px", borderRadius: "5px" }} >call</button>
                       </a>
                     </div>
 
@@ -464,6 +466,7 @@ function AllOrder() {
                     <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
                     <div style={{ backgroundColor: "green", padding: "5px 10px", borderRadius: "5px" }}><b>Created At:</b> {formatDate(order.createdAt)}</div>
                     <div><b>Delivered At:</b> {formatDate(order.deliveredAt)}</div>
+                    <div> <b>delivered By:</b> <span style={{ backgroundColor: "yellow", padding: "5px 10px", borderRadius: "5px" }} > {order?.deliveredBy}</span> </div>
                   </div>
 
                   <div className="action-buttons">
