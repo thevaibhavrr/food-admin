@@ -22,9 +22,9 @@ export const makeApi = async (
       method,
       // url: `https://test.ritaz.in${endpoint}`, 
       // url:"http://localhost:5008"+endpoint,
-      // url: `https://new-food-backend-fdoa.onrender.com${endpoint}`,
-      url: `https://old-backend-ow2p.onrender.com${endpoint}`,
+      url: `https://belivmart-user.onrender.com${endpoint}`,
 
+      // url: `https://new-food-backend-fdoa.onrender.com${endpoint}`,
 
       headers,
       data

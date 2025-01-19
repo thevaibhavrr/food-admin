@@ -148,6 +148,8 @@
 //                           <p><b>Name:</b> {item?.productId?.name}</p>
 //                           <p><b>Price:</b> ₹{item?.productId?.FinalPrice}</p>
 //                           <p><b>Quantity:</b> {item?.quantity}</p>
+//                           <p><b>:</b>  ₹{item?.productId?.FinalPrice}  X {item?.quantity}</p>
+//                           {item?.shopname && <p  ><b>Shop Name:</b> <span style={{ backgroundColor: "red", padding: "5px 10px", borderRadius: "5px" }}>{item?.shopname}</span></p>}
 //                         </div>
 //                       </div>
 //                     ))}
@@ -161,8 +163,6 @@
 //                     <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
 //                     <div style={{ backgroundColor: "green", padding: "5px 10px", borderRadius: "5px" }} ><b>Created At:</b> {formatDate(order.createdAt)}</div> {/* Display local creation time */}
 //                     <div> <b>delivered At:</b> {formatDate(order.deliveredAt)} </div>
-//                     <div> <b>delivered At:</b> {order?.deliveredBy} </div>
-                    
 //                   </div>
 
 //                   <div className="action-buttons">
@@ -182,14 +182,13 @@
 //                       <option value="" disabled>Select Caller</option>
 //                       <option value="Vaibhav">Vaibhav</option>
 //                       <option value="Manish">Manish</option>
-//                       <option value="Kana">Kana</option>
-//                       <option value="vipin">Vipin</option>
+//                       <option value="Rakesh">Rakesh</option>
+//                       <option value="Mahesh">Mahesh</option>
 //                     </select>
 
 //                   </div>
 
 //                   <div className="all_order_buttons_div">
-//                     {/* <Link to={`/admin/order/${order._id}`} className="all_order_order_view_button">View Order</Link> */}
 //                     <div
 //                       className="all_order_order_update_button"
 //                       onClick={() => handleOpenPopup(order._id)}
@@ -282,6 +281,7 @@
 
 // export default AllOrder;
 
+
 import React, { useEffect, useState } from "react";
 import "../../adminCss/order/allorder.css";
 import { makeApi } from "../../api/callApi";
@@ -296,28 +296,12 @@ function AllOrder() {
   const [selectedStatus, setSelectedStatus] = useState("Pending");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
-const [user, setUser] = useState(null);
-
-
-    useEffect(() => {
-      if (localStorage.getItem("token")) {
-        const checkUserRole = async () => {
-          try {
-            const response = await makeApi("/api/my-profile", "GET");
-            setUser(response.data.user); 
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        checkUserRole();
-      }
-    }, []);
 
   const fetchOrders = async () => {
     try {
       setLoading(true);
       const response = await makeApi(`/api/get-all-second-order?status=${status}`, "GET");
-      // revers data
+      // reverse data
       const ndata = response.data.orders;
       setOrders(ndata);
     } catch (error) {
@@ -394,12 +378,18 @@ const [user, setUser] = useState(null);
     }
   };
 
+  // Add the refresh function here:
   const handleRefresh = () => {
-    fetchOrders(); // Refresh the orders without reloading the page
+    fetchOrders(); // This will reload the orders
   };
 
   return (
     <div className="all-orders-container">
+      {/* Refresh Button */}
+      <button onClick={handleRefresh} className="refresh-button">
+        Refresh Orders
+      </button>
+
       <div className="all_orders_status_buttons">
         <button
           className={`admin_add_product_button ${selectedStatus === "Pending" ? "selectedStatus" : ""}`}
@@ -427,19 +417,11 @@ const [user, setUser] = useState(null);
         </button>
       </div>
 
-      {/* Refresh Button */}
-      <div className="refresh-button-container">
-        <button className="refresh-button" onClick={handleRefresh}>
-          Refresh
-        </button>
-      </div>
-
       <div className="order-list">
         {loading ? (
           <Loader />
         ) : (
           <div className="main_order_list_container">
-            {/* If no orders, display "No Orders" message */}
             {orders.length === 0 ? (
               <div className="no-orders-message">No Orders Available</div>
             ) : (
@@ -460,6 +442,8 @@ const [user, setUser] = useState(null);
                           <p><b>Name:</b> {item?.productId?.name}</p>
                           <p><b>Price:</b> ₹{item?.productId?.FinalPrice}</p>
                           <p><b>Quantity:</b> {item?.quantity}</p>
+                          <p><b>Total:</b> ₹{item?.productId?.FinalPrice} × {item?.quantity}</p>
+                          {item?.shopname && <p><b>Shop Name:</b> <span style={{ backgroundColor: "red", padding: "5px 10px", borderRadius: "5px" }}>{item?.shopname}</span></p>}
                         </div>
                       </div>
                     ))}
@@ -468,12 +452,18 @@ const [user, setUser] = useState(null);
                   <div className="order_details all_order_details">
                     <div><b>Address:</b> {order.address}</div>
                     <div><b>Name:</b> {order?.username}</div>
-                    <div><b>Mobile Number:</b> {order.mobileNumber}</div>
+                    {/* <div><b>Mobile Number:</b> {order.mobileNumber}</div> */}
+                    <div>
+                      <b>Mobile Number:</b>
+                      <a href={`tel:${order.mobileNumber}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        {order.mobileNumber}
+                      </a>
+                    </div>
+
                     <div><b>Status:</b> {order.status}</div>
                     <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
-                    <div style={{ backgroundColor: "green", padding: "5px 10px", borderRadius: "5px" }} ><b>Created At:</b> {formatDate(order.createdAt)}</div> {/* Display local creation time */}
-                    <div> <b>delivered At:</b> {formatDate(order.deliveredAt)} </div>
-                    <div> <b>delivered By:</b> {order?.deliveredBy} </div>
+                    <div style={{ backgroundColor: "green", padding: "5px 10px", borderRadius: "5px" }}><b>Created At:</b> {formatDate(order.createdAt)}</div>
+                    <div><b>Delivered At:</b> {formatDate(order.deliveredAt)}</div>
                   </div>
 
                   <div className="action-buttons">
@@ -488,13 +478,13 @@ const [user, setUser] = useState(null);
 
                     <select
                       onChange={(e) => handleCalledUpdate(order._id, e.target.value)}
-                      value={order.called === "false" || !order.called ? "" : order.called} // Default to empty if no caller
+                      value={order.called === "false" || !order.called ? "" : order.called}
                     >
                       <option value="" disabled>Select Caller</option>
                       <option value="Vaibhav">Vaibhav</option>
                       <option value="Manish">Manish</option>
-                      <option value="Kana">Kana</option>
-                      <option value="vipin">Vipin</option>
+                      <option value="Rakesh">Rakesh</option>
+                      <option value="Mahesh">Mahesh</option>
                     </select>
                   </div>
 
@@ -515,59 +505,12 @@ const [user, setUser] = useState(null);
 
       {selectedOrderId && <UpdateOrderPopup orderId={selectedOrderId} onClose={handleClose} />}
 
-      {/* Delete Confirmation Popup */}
       {showDeleteConfirm && (
-        <div
-          className="delete-confirm-popup"
-          style={{
-            position: "fixed",
-            top: "0",
-            left: "0",
-            right: "0",
-            bottom: "0",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              textAlign: "center",
-              width: "300px",
-            }}
-          >
-            <h4 style={{ marginBottom: "20px" }}>Are you sure you want to delete this order?</h4>
-            <button
-              onClick={handleDeleteOrder}
-              style={{
-                backgroundColor: "#f44336",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                marginRight: "10px",
-              }}
-            >
-              Yes, Delete
-            </button>
-            <button
-              onClick={handleCloseDeleteConfirm}
-              style={{
-                backgroundColor: "#4caf50",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
+        <div className="delete-confirm-popup">
+          <div>
+            <h4>Are you sure you want to delete this order?</h4>
+            <button onClick={handleDeleteOrder}>Yes, Delete</button>
+            <button onClick={handleCloseDeleteConfirm}>Cancel</button>
           </div>
         </div>
       )}

@@ -8,7 +8,6 @@ import Adduser from "./AdminComponents/User/Adduser";
 import LoginForm from "../src/components/auth/login";
 import AddUserForm from "./components/auth/Adduser";
 import { useEffect } from "react";
-import Reportorder from "./AdminComponents/Order/Report";
 
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
 
         <Route path="/admin/*" element={<Admin />} />{" "}
         <Route path="/s" element={<Adduser />} />{" "}
-        <Route path="/report" element={<Reportorder />} />{" "}
         <Route path="/admin" element={<Admindasboard />} />
         {/* <Route path="/today" element={<TodayReport />} /> */}
       </Routes>
