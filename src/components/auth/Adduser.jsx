@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../../style/login.css";
+import "../../style/adduser.css";
 import { makeApi } from "../../api/callApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,43 +42,43 @@ function AddUserForm() {
     <>
       <ToastContainer autoClose={2000} />
 
-      <div className='main_login_page_div_admin'>
-        <form className="form_main">
-          <p className="heading">Add New User</p>
+      <div className='add_user_page_main_login_page_div_admin'>
+        <form className="add_user_page_form_main">
+          <p className="add_user_page_heading">Add New User</p>
 
-          <div className="inputContainer">
+          <div className="add_user_page_inputContainer">
             <input
               type="text"
-              className="inputField"
+              className="add_user_page_inputField"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
-          <div className="inputContainer">
+          <div className="add_user_page_inputContainer">
             <input
               type="number"
-              className="inputField"
+              className="add_user_page_inputField"
               placeholder="Mobile Number"
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value)}
             />
           </div>
 
-          <div className="inputContainer">
+          <div className="add_user_page_inputContainer">
             <input
               type="password"
-              className="inputField"
+              className="add_user_page_inputField"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          <div className="inputContainer">
+          <div className="add_user_page_inputContainer">
             <select
-              className="inputField"
+              className="add_user_page_inputField"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -88,10 +88,10 @@ function AddUserForm() {
           </div>
 
           {loading ? (
-            <div className='loginloader'></div>
+            <div className='add_user_page_loginloader'></div>
           ) : (
-            <div className='w-100 text-center'>
-              <button id="button" onClick={(e) => handleSubmit(e)}>Add User</button>
+            <div className='add_user_page_w-100 add_user_page_text-center'>
+              <button id="add_user_page_button" onClick={(e) => handleSubmit(e)}>Add User</button>
             </div>
           )}
         </form>
