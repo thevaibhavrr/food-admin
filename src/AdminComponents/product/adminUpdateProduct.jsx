@@ -246,6 +246,21 @@ const handleShopPriceChange = (e, index, field) => {
           <div className="update-product-container">
             <h2>Update Product</h2>
             <form onSubmit={handleSubmit}>
+              <div className="form-section">
+                <h3>Top Saller</h3>
+                <div className="form-group">
+                  <label>Top Saller:</label>
+                  <input
+                    type="checkbox"
+                    name="topsaller"
+                    checked={formData.topsaller}
+                    onChange={(e) =>
+                      setFormData({ ...formData, topsaller: e.target.checked })
+                    }
+                  />
+                </div>
+              </div>
+
               {/* General Information Section */}
               <div className="form-section">
                 <h3>General Information</h3>
