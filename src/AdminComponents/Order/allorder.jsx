@@ -458,8 +458,8 @@ function AllOrder() {
                     {/* <div><b>Mobile Number:</b> {order.mobileNumber}</div> */}
                     <div>
                       <b>Mobile Number:</b>
-                      <a href={`tel:${order.mobileNumber}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         {order.mobileNumber}
+                      <a href={`tel:${order.mobileNumber}`} style={{ textDecoration: 'none', color: 'inherit' }}>
 
                    <button style={{ marginLeft: "10px" , backgroundColor: "yellow", padding: "5px 10px", borderRadius: "5px" }} >call</button>
                       </a>
