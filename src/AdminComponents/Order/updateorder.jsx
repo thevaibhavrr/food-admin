@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeApi } from "../../api/callApi";
 import "../../adminCss/order/updateorder.css";
+import { ToastContainer, toast } from "react-toastify";
+
 import Loader from "../../components/loader/loader";
 
 const UpdateOrderPopup = ({ orderId, onClose }) => {
@@ -12,6 +14,23 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
     status: "",
     deliveredBy: "",
   });
+  const [users, setUsers] = useState([]);
+
+
+  useEffect(() => {
+    // Fetch existing users when component mounts
+    const fetchUsers = async () => {
+      try {
+        const response = await makeApi("/api/get-all-users", "GET");
+        setUsers(response.data.user);  // Assuming the API returns an array of users
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        toast.error("Failed to load users.");
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -132,8 +151,10 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
                   onChange={handleInputChange}
                 >
                   <option value="" disabled>Select Deliverer</option>
-                  <option value="Vaibhav">Vaibhav</option>
-                  <option value="Manish">Manish</option>
+                  <option value="VM">VM</option>
+                  <option value="Vipin">Vipin</option>
+                  <option value="Kana">Kana</option>
+                  <option value="Rider">Rider</option>
                   <option value="Rakesh">Rakesh</option>
                 </select>
               </div>

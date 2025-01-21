@@ -163,7 +163,6 @@ function AddUserForm() {
   };
 
   const handleDelete = async (userId) => {
-    console.log("=-=-==-=",userId);
     
     if (window.confirm("Are you sure you want to delete this user?",userId)) {
       try {

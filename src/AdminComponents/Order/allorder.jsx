@@ -296,6 +296,7 @@ function AllOrder() {
   const [selectedStatus, setSelectedStatus] = useState("Pending");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
+  
 
   const fetchOrders = async () => {
     try {
@@ -314,6 +315,8 @@ function AllOrder() {
   useEffect(() => {
     fetchOrders();
   }, [status]);
+
+
 
   const handleStatusChange = (newStatus) => {
     setStatus(newStatus);
