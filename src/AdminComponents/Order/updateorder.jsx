@@ -151,11 +151,10 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
                   onChange={handleInputChange}
                 >
                   <option value="" disabled>Select Deliverer</option>
+                  <option value="Sunil">Sunil</option>
+                  <option value="Shivam">Shivam</option>
+                  <option value="Ritesh">Ritesh</option>
                   <option value="VM">VM</option>
-                  <option value="Vipin">Vipin</option>
-                  <option value="Kana">Kana</option>
-                  <option value="Rider">Rider</option>
-                  <option value="Rakesh">Rakesh</option>
                 </select>
               </div>
             )}
