@@ -25,7 +25,6 @@ export const makeApi = async (
       url: `https://belivmart-user.onrender.com${endpoint}`,
 
       // url: `https://new-food-backend-fdoa.onrender.com${endpoint}`,
-
       headers,
       data
     };

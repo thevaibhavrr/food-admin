@@ -221,8 +221,12 @@ function AddUserForm() {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
               >
-                <option value="user">User</option>
                 <option value="admin">Admin</option>
+                <option value="supersaller">Super saller</option>
+                <option value="saller">Saller</option>
+                <option value="delivryboy">Delivry Boy</option>
+                <option value="manager">Manager</option>
+
               </select>
             </div>
 
