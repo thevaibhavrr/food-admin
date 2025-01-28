@@ -232,6 +232,7 @@
 // };
 
 // export default UpdateOrderPopup;
+
 import React, { useState, useEffect } from "react";
 import { makeApi } from "../../api/callApi";
 import "../../adminCss/order/updateorder.css";
@@ -428,7 +429,7 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
               <div>
                 <label>Delivered By:</label>
                 <div className="radio-group">
-                  {filteredUsers.map((user) => (
+                  {users.map((user) => (
                     <label key={user._id}>
                       <input
                         type="radio"
