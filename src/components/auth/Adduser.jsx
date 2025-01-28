@@ -113,7 +113,7 @@ function AddUserForm() {
   const [username, setUsername] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
 
@@ -219,6 +219,7 @@ function AddUserForm() {
               <select
                 className="add_user_page_inputField"
                 value={role}
+                required
                 onChange={(e) => setRole(e.target.value)}
               >
                 <option value="admin">Admin</option>
