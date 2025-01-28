@@ -21,11 +21,11 @@ export const makeApi = async (
     const config = {
       method,
       // url: `https://test.ritaz.in${endpoint}`, 
-      // url:"http://localhost:5008"+endpoint,
-      // url: `https://belivmart-user.onrender.com${endpoint}`,
-
       // url: `https://new-food-backend-fdoa.onrender.com${endpoint}`,
-
+      // url: `https://belivmart-user.onrender.com${endpoint}`,
+      
+      
+      // url:"http://localhost:5008"+endpoint,
       // new
       url: `https://belivmart-backend.onrender.com${endpoint}`,
       headers,

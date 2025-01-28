@@ -23,14 +23,13 @@ const uploadToCloudinary = async (file, setUploadProgress, maxSizeKB = 800) => {
     // Prepare form data for upload
     const data = new FormData();
     data.append("file", compressedFile);
-    // data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || "whxam1fl");
     data.append("upload_preset", "belivmart");
     data.append("folder", "belivmart");
 
     // Upload the compressed image to Cloudinary
     const response = await axios.post(
-      // `https://api.cloudinary.com/v1_1/dunzldpvc/image/upload`,  // Ensure this is your Cloudinary cloud name
-      `https://api.cloudinary.com/v1_1/dvjw9pm1d/image/upload`,  // Ensure this is your Cloudinary cloud name
+      `https://api.cloudinary.com/v1_1/dd235lp9r/image/upload`, 
+      // `https://api.cloudinary.com/v1_1/dvjw9pm1d/image/upload`, 
       data,
       {
         onUploadProgress: (progressEvent) => {
