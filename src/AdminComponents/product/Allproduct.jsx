@@ -213,7 +213,7 @@ const Allproduct = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await makeApi("/api/get-all-products", "GET");
+        const response = await makeApi("/api/get-all-products-for-admin", "GET");
         const reversedProducts = response.data.products.reverse();
         setProducts(reversedProducts);
         setToalProduct(response.data.totalProducts);

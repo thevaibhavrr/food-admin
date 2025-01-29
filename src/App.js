@@ -1,19 +1,17 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Admin from "./AdminPages/Admin";
-import Adminsidebar from "./AdminComponents/slidebar/adminsidebar";
 import Admindasboard from "./AdminComponents/dasboard/admindasboard";
 import TodayReport from "./AdminComponents/dasboard/Todayreport";
 import Adduser from "./AdminComponents/User/Adduser";
 import LoginForm from "../src/components/auth/login";
-import AddUserForm from "./components/auth/Adduser";
-import { useEffect } from "react";
 
 
 function App() {
-
-  
-
+ 
+// console.log("hello");
+const apiUrl = process.env.REACT_APP_AWS_BUCKET_NAME;
+console.log(apiUrl);
 
   return (
     <div>

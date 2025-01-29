@@ -14,7 +14,7 @@ function AdminAddProduct() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [shopPrices, setShopPrices] = useState([{ shopname: "", price: "", poistionId: "", active: "true" }]);
-  const [discountPercentage, setDiscountPercentage] = useState(0); 
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const [thumbnail, setThumbnail] = useState("");
   const [category, setCategory] = useState("");
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -23,12 +23,27 @@ function AdminAddProduct() {
   const [ourprice, setOurprice] = useState("");
   const [FinalPrice, setFinalPrice] = useState(0);
   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
+  const [user, setUser] = useState(null);
+
+
 
   const calculateFinalPrice = (price, discountPercentage) => {
     const finalPrice = price - (price * (discountPercentage / 100));
     return Math.round(finalPrice);
   };
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const checkUserRole = async () => {
+        try {
+          const response = await makeApi("/api/my-profile", "GET");
+          setUser(response.data.user); // Set the logged-in user to state
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      checkUserRole();
+    }
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -98,12 +113,30 @@ function AdminAddProduct() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    fetchCategory()
-      .then((data) => setCategories(data))
-      .catch(() => toast.error("Failed to fetch categories."))
-      .finally(() => setLoading(false));
+    const fetchCategory = async () => {
+      try {
+        setLoading(true);
+        const response = await makeApi("/api/get-all-categories", "GET");
+  
+        // Get user's accessible category IDs
+        const accessibleCategoryIds = user?.categoryacess || [];
+  
+        // Filter categories based on user's access
+        const accessibleCategories = response.data.filter(category =>
+          accessibleCategoryIds.includes(category._id)
+        );
+  
+        setCategories(accessibleCategories);
+      } catch (error) {
+        console.log("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchCategory();
   }, []);
+  
 
   return (
     <div className="add-product-container">
@@ -178,7 +211,7 @@ function AdminAddProduct() {
                   setShopPrices(updatedShopPrices);
                 }}
               />
-               <select
+              <select
                 className="add_product_input_filed"
                 value={shopPrice.active}
                 onChange={(e) => {
@@ -190,7 +223,7 @@ function AdminAddProduct() {
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
               </select>
-              
+
               <button
                 type="button"
                 className="remove-shop-price-btn"

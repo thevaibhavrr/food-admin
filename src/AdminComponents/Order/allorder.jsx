@@ -296,7 +296,22 @@ function AllOrder() {
   const [selectedStatus, setSelectedStatus] = useState("Pending");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
+    const [user, setUser] = useState(null); // Store user role
   
+
+     useEffect(() => {
+        if (localStorage.getItem("token")) {
+          const checkUserRole = async () => {
+            try {
+              const response = await makeApi("/api/my-profile", "GET");
+              setUser(response.data.user); 
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          checkUserRole();
+        }
+      }, []);
 
   const fetchOrders = async () => {
     try {
@@ -363,11 +378,11 @@ function AllOrder() {
 
   const handleSeenToggle = async (orderId) => {
     try {
-      const updatedOrderData = { Isseen: "true" };
+      const updatedOrderData = { Isseen: "true" , seenby: user.username };
       await makeApi(`/api/update-second-order-by-id/${orderId}`, "PUT", updatedOrderData);
       fetchOrders(); // Refresh orders after update
     } catch (error) {
-      console.error("Error updating Isseen:", error);
+      console.error("Error updating Isseen:", error); 
     }
   };
 
@@ -473,16 +488,18 @@ function AllOrder() {
                   </div>
 
                   <div className="action-buttons">
-                    <label>
+                    <label style={{marginBottom: '10px'}} >
                       <input
                         type="checkbox"
                         checked={order.Isseen === "true"}
                         onChange={() => handleSeenToggle(order._id)}
+                        style={{ transform: 'scale(1.8)', marginRight: '8px' }} 
                       />
                       Seen
                     </label>
+                    <small> {order.seenby} </small>
 
-                    <select
+                    {/* <select
                       onChange={(e) => handleCalledUpdate(order._id, e.target.value)}
                       value={order.called === "false" || !order.called ? "" : order.called}
                     >
@@ -491,7 +508,7 @@ function AllOrder() {
                       <option value="Manish">Manish</option>
                       <option value="Rakesh">Rakesh</option>
                       <option value="Mahesh">Mahesh</option>
-                    </select>
+                    </select> */}
                   </div>
 
                   <div className="all_order_buttons_div">

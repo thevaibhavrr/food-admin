@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 export const makeApi = async (
   endpoint,
   method = "GET",
@@ -7,11 +7,6 @@ export const makeApi = async (
 ) => {
   try {
     const token = localStorage.getItem("token");
-
-
-    // if (!token && endpoint.includes("/auth-required")) {
-    //   throw new Error("Please login to access this resource.");
-    // }
 
     const headers = {
       "Content-Type": "application/json",
@@ -21,11 +16,11 @@ export const makeApi = async (
     const config = {
       method,
       // url: `https://test.ritaz.in${endpoint}`, 
-      // url:"http://localhost:5008"+endpoint,
-      // url: `https://belivmart-user.onrender.com${endpoint}`,
-
       // url: `https://new-food-backend-fdoa.onrender.com${endpoint}`,
-
+      // url: `https://belivmart-user.onrender.com${endpoint}`,
+      
+      
+      // url:"http://localhost:5008"+endpoint, 
       // new
       url: `https://belivmart-backend.onrender.com${endpoint}`,
       headers,
@@ -35,6 +30,10 @@ export const makeApi = async (
     const response = await axios(config);
     return response;
   } catch (error) {
+    if (error.response?.data?.message === "Please login to access this resource") {
+      localStorage.removeItem("token");
+      window.location.href = "/";
+    }
     console.error("API request failed:", error.response.data);
     throw error;
   }

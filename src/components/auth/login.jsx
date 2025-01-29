@@ -30,7 +30,16 @@ function LoginForm() {
     try {
       setLoading(true);
       const response = await makeApi("/api/login-user", "POST", { password, username });
-      navigate("/admin/all-orders");
+      console.log(response.data.user.role);
+      if(response.data.user.role === "admin"){
+        navigate("/admin/all-orders");
+      }
+      if(response.data.user.role === ("supersaller" || "saller")){
+        navigate("/admin/allproducts");
+      }
+      if(response.data.user.role === ("user"||"manager"||"delivryboy")){
+        navigate("/admin/all-orders");
+      }
       localStorage.setItem("token", response.data.token);
     } catch (error) {
       console.error('Error sending data:', error.response?.data);
