@@ -23,8 +23,8 @@
 //     const response = await axios.post(
 //       `https://api.cloudinary.com/v1_1/dd235lp9r/image/upload`, 
 //       // `https://api.cloudinary.com/v1_1/dvjw9pm1d/image/upload`, 
-//       data,
-//       {
+//       data,     
+//       {     
 //         onUploadProgress: (progressEvent) => {
 //           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 //           if (setUploadProgress) {
@@ -53,6 +53,7 @@ import imageCompression from 'browser-image-compression';
 const s3 = new AWS.S3({
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  
   region: process.env.REACT_APP_AWS_REGION,
 });
 
