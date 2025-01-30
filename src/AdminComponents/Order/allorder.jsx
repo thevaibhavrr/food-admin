@@ -167,7 +167,7 @@ function AllOrder() {
                         <div>
                           <img
                             loading="lazy"
-                            src={item?.productId?.thumbnail.replace('http://', 'https://')}
+                            src={item?.productId?.thumbnail}
                             alt={item?.productId?.name}
                             className="all_order_thumbnail"
                           />
