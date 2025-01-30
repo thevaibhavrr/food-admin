@@ -33,47 +33,109 @@ function UpdateProduct() {
     shopPrices: [],
   });
 
-  // Fetch categories and product data
-  useEffect(() => {
-    const fetchProduct = async () => {
+  const [user, setUser] = useState(null);
+const [userLoaded, setUserLoaded] = useState(false); // Track if user is loaded
+useEffect(() => {
+  if (localStorage.getItem("token")) {
+    const checkUserRole = async () => {
       try {
-        setLoading(true);
-
-        // Fetch product details
-        const response = await makeApi(`/api/get-single-product/${productId}`, "GET");
-        const productData = response.data.product;
-        setProduct(productData);
-
-        // Set form data with product details
-        setFormData({
-          name: productData.name || "",
-          shopname: productData.shopname || "",
-          price: productData.price || "",
-          discountPercentage: productData.discountPercentage || "",
-          FinalPrice: productData.FinalPrice || "",
-          category: productData.category._id || "",
-          thumbnail: productData.thumbnail || "",
-          availableTimes: productData.availableTimes.join(", ") || "", // Convert array to comma separated string
-          minorderquantity: productData.minorderquantity || "",
-          packof: productData.packof || "",
-          active: productData.active || "", // Ensure 'active' status is set
-          ourprice: productData.ourprice || "",
-          shopPrices: productData.shopPrices || [],
-        });
-
-        // Fetch categories
-        const categoryResponse = await fetchCategory();
-        setCategories(categoryResponse);
-
+        const response = await makeApi("/api/my-profile", "GET");
+        setUser(response.data.user); // Set the logged-in user to state
+        setUserLoaded(true); // Mark user as loaded
       } catch (error) {
-        console.error("Error fetching product details:", error);
-      } finally {
-        setLoading(false);
+        console.log(error);
+        setUserLoaded(true); // Ensure to still continue even if there's an error
       }
     };
+    checkUserRole();
+  } else {
+    setUserLoaded(true); // If no token, we can still proceed to fetch product
+  }
+}, []);
 
-    fetchProduct();
-  }, [productId]);
+
+  // Fetch categories and product data
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     try {
+  //       setLoading(true);
+
+  //       // Fetch product details
+  //       const response = await makeApi(`/api/get-single-product/${productId}`, "GET");
+  //       const productData = response.data.product;
+  //       setProduct(productData);
+
+  //       // Set form data with product details
+  //       setFormData({
+  //         name: productData.name || "",
+  //         shopname: productData.shopname || "",
+  //         price: productData.price || "",
+  //         discountPercentage: productData.discountPercentage || "",
+  //         FinalPrice: productData.FinalPrice || "",
+  //         category: productData.category._id || "",
+  //         thumbnail: productData.thumbnail || "",
+  //         availableTimes: productData.availableTimes.join(", ") || "", // Convert array to comma separated string
+  //         minorderquantity: productData.minorderquantity || "",
+  //         packof: productData.packof || "",
+  //         active: productData.active || "", // Ensure 'active' status is set
+  //         ourprice: productData.ourprice || "",
+  //         shopPrices: productData.shopPrices || [],
+  //       });
+
+  //       // Fetch categories
+  //       const categoryResponse = await fetchCategory();
+  //       setCategories(categoryResponse);
+
+  //     } catch (error) {
+  //       console.error("Error fetching product details:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchProduct();
+  // }, [productId]);
+  useEffect(() => {
+    if (userLoaded) {
+      const fetchProduct = async () => {
+        try {
+          setLoading(true);
+  
+          // Fetch product details
+          const response = await makeApi(`/api/get-single-product/${productId}`, "GET");
+          const productData = response.data.product;
+          setProduct(productData);
+  
+          // Set form data with product details
+          setFormData({
+            name: productData.name || "",
+            shopname: productData.shopname || "",
+            price: productData.price || "",
+            discountPercentage: productData.discountPercentage || "",
+            FinalPrice: productData.FinalPrice || "",
+            category: productData.category._id || "",
+            thumbnail: productData.thumbnail || "",
+            availableTimes: productData.availableTimes.join(", ") || "", // Convert array to comma separated string
+            minorderquantity: productData.minorderquantity || "",
+            packof: productData.packof || "",
+            active: productData.active || "", // Ensure 'active' status is set
+            ourprice: productData.ourprice || "",
+            shopPrices: productData.shopPrices || [],
+          });
+  
+          // Fetch categories
+          const categoryResponse = await fetchCategory();
+          setCategories(categoryResponse);
+        } catch (error) {
+          console.error("Error fetching product details:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchProduct();
+    }
+  }, [userLoaded, productId]);
 
   // Handle Shop Price Changes
 
@@ -246,6 +308,8 @@ const handleShopPriceChange = (e, index, field) => {
           <div className="update-product-container">
             <h2>Update Product</h2>
             <form onSubmit={handleSubmit}>
+            {user?.role==="admin" && (
+  <>
               <div className="form-section">
                 <h3>Top Saller</h3>
                 <div className="form-group">
@@ -260,6 +324,8 @@ const handleShopPriceChange = (e, index, field) => {
                   />
                 </div>
               </div>
+              </>
+            )}
 
               {/* General Information Section */}
               <div className="form-section">
@@ -443,9 +509,8 @@ const handleShopPriceChange = (e, index, field) => {
     Add Shop Price
   </button>
 </div>
-
-
-
+{user?.role==="admin" && (
+  <>
               {/* Category Section */}
               <div className="form-section">
                 <h3>Category</h3>
@@ -464,7 +529,8 @@ const handleShopPriceChange = (e, index, field) => {
                   </select>
                 </div>
               </div>
-
+              </>
+)}
               {/* Availability Section */}
               <div className="form-section">
                 <h3>Availability</h3>

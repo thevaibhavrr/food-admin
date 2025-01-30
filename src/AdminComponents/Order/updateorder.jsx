@@ -22,7 +22,7 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
       const checkUserRole = async () => {
         try {
           const response = await makeApi("/api/my-profile", "GET");
-          setUser(response.data.user); // Set the logged-in user to state
+          setUser(response.data.user.role); // Set the logged-in user to state
         } catch (error) {
           console.log(error);
         }
@@ -35,14 +35,14 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
     const fetchUsers = async () => {
       try {
         const response = await makeApi("/api/get-all-users", "GET");
-        const allUsers = response.data.user;
-        if (user.role === "admin") {
-          setUsers(allUsers);
-        } else if (user.role === "delivryboy") {
-          setUsers([]);
-        } else if (user.role === "manager" || user.role === "user") {
-          const filteredUsers = allUsers.filter(user => user.role === "manager" || user.role === "delivryboy");
-          setUsers(filteredUsers);
+        const allUsers = await response.data.user;
+        if (user === "admin") {
+          await setUsers(allUsers);
+        } else if (user === "delivryboy") {
+          await setUsers([]);
+        } else if (user === "manager" || user === "user") {
+          const filteredUsers = await allUsers.filter(user => user.role === "manager" || user.role === "delivryboy");
+          await setUsers(filteredUsers);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -50,7 +50,7 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
       }
     };
     fetchUsers();
-  }, []);
+  }, [updatedOrderData]);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {

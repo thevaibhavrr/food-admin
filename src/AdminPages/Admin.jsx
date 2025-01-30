@@ -197,7 +197,7 @@ function PrivateRoute({ children, allowedRoles }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      window.location.href = "/"; // Redirect to login if not authenticated
+      window.location.href = "/"; 
     }
   }, []);
 
@@ -273,7 +273,7 @@ function Admin() {
           <Route
             path="/product-update/:productId"
             element={
-              <PrivateRoute allowedRoles={['admin']}>
+              <PrivateRoute allowedRoles={['admin',"supersaller","saller"]}>
                 <UpdateProduct />
               </PrivateRoute>
             }

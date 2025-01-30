@@ -13,9 +13,10 @@ function AddUserForm() {
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
-    const [categories, setCategories] = useState([]); // List of categories
-   const [selectedCategories, setSelectedCategories] = useState([]);
-  
+  const [categories, setCategories] = useState([]); // List of categories
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const[shop,setshop]=useState("");
+
 
   useEffect(() => {
     // Fetch existing users when component mounts
@@ -31,29 +32,29 @@ function AddUserForm() {
 
     fetchUsers();
   }, []);
-    useEffect(() => {
-      async function fetchCategories() {
-        try {
-          setLoading(true);
-          const response = await makeApi("/api/get-all-categories", "GET");
-          setCategories(response.data); // Set available categories
-        } catch (error) {
-          console.log("Error fetching categories:", error);
-        } finally {
-          setLoading(false);
-        }
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        setLoading(true);
+        const response = await makeApi("/api/get-all-categories", "GET");
+        setCategories(response.data); // Set available categories
+      } catch (error) {
+        console.log("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
       }
-      fetchCategories();
-    }, []);
+    }
+    fetchCategories();
+  }, []);
 
-    const handleCategoryChange = (categoryId) => {
-      setSelectedCategories((prev) =>
-        prev.includes(categoryId)
-          ? prev.filter((id) => id !== categoryId)
-          : [...prev, categoryId]
-      );
-    };
-  
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -70,6 +71,7 @@ function AddUserForm() {
         mobileNumber,
         password,
         role,
+        shopname:shop,
         categoryacess: role === "saller" || role === "supersaller" ? selectedCategories : [],
       });
       toast.success("User added successfully.");
@@ -78,6 +80,7 @@ function AddUserForm() {
       setMobileNumber("");
       setPassword("");
       setRole("user");
+      setshop("");
       setSelectedCategories([]);
     } catch (error) {
       console.error("Error adding user:", error.response?.data);
@@ -88,8 +91,8 @@ function AddUserForm() {
   };
 
   const handleDelete = async (userId) => {
-    
-    if (window.confirm("Are you sure you want to delete this user?",userId)) {
+
+    if (window.confirm("Are you sure you want to delete this user?", userId)) {
       try {
         const response = await makeApi(`/api/delete-user/${userId}`, "DELETE");
         toast.success("User deleted successfully.");
@@ -156,6 +159,17 @@ function AddUserForm() {
               </select>
             </div>
             {(role === "saller" || role === "supersaller") && (
+              <>
+               {/* setshop */}
+               <div className="add_user_page_inputContainer">
+                <input 
+                  type="text"
+                  className="add_user_page_inputField"
+                  placeholder="Shop Name"
+                  value={shop}
+                  onChange={(e) => setshop(e.target.value)}
+                />
+              </div>
               <div>
                 <h4>Select Categories</h4>
                 {categories.map((category) => (
@@ -169,6 +183,10 @@ function AddUserForm() {
                   </div>
                 ))}
               </div>
+
+             
+
+              </>
             )}
 
             {loading ? (
@@ -188,8 +206,8 @@ function AddUserForm() {
               {users.map(user => (
                 <li key={user.id} className="add_user_page_user_item">
                   <span>{user.username} ({user.role})</span>
-                  <button 
-                    onClick={() => handleDelete(user._id)} 
+                  <button
+                    onClick={() => handleDelete(user._id)}
                     className="add_user_page_delete_button">
                     Delete
                   </button>
@@ -252,13 +270,13 @@ export default AddUserForm;
 //     fetchCategories();
 //   }, []);
 
-  // const handleCategoryChange = (categoryId) => {
-  //   setSelectedCategories((prev) =>
-  //     prev.includes(categoryId)
-  //       ? prev.filter((id) => id !== categoryId)
-  //       : [...prev, categoryId]
-  //   );
-  // };
+// const handleCategoryChange = (categoryId) => {
+//   setSelectedCategories((prev) =>
+//     prev.includes(categoryId)
+//       ? prev.filter((id) => id !== categoryId)
+//       : [...prev, categoryId]
+//   );
+// };
 
 //   const handleSubmit = async (event) => {
 //     event.preventDefault();
@@ -310,21 +328,21 @@ export default AddUserForm;
 //               <option value="manager">Manager</option>
 //             </select>
 
-            // {(role === "saller" || role === "supersaller") && (
-            //   <div>
-            //     <h4>Select Categories</h4>
-            //     {categories.map((category) => (
-            //       <div key={category._id}>
-            //         <input
-            //           type="checkbox"
-            //           checked={selectedCategories.includes(category._id)}
-            //           onChange={() => handleCategoryChange(category._id)}
-            //         />
-            //         {category.name}
-            //       </div>
-            //     ))}
-            //   </div>
-            // )}
+// {(role === "saller" || role === "supersaller") && (
+//   <div>
+//     <h4>Select Categories</h4>
+//     {categories.map((category) => (
+//       <div key={category._id}>
+//         <input
+//           type="checkbox"
+//           checked={selectedCategories.includes(category._id)}
+//           onChange={() => handleCategoryChange(category._id)}
+//         />
+//         {category.name}
+//       </div>
+//     ))}
+//   </div>
+// )}
 
 //             <button type="submit" disabled={loading} className='btn btn-warning'>
 //               {loading ? "Adding..." : "Add User"}

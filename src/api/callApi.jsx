@@ -22,7 +22,8 @@ export const makeApi = async (
       
       // url:"http://localhost:5008"+endpoint, 
       // new
-      url: `https://belivmart-backend.onrender.com${endpoint}`,
+      // url: `https://belivmart-backend.onrender.com${endpoint}`,
+      url: `https://api.belivmart.com${endpoint}`,
       headers,
       data
     };
