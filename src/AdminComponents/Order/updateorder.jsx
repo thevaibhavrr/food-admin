@@ -17,12 +17,13 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState(null);
 
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const checkUserRole = async () => {
         try {
           const response = await makeApi("/api/my-profile", "GET");
-          setUser(response.data.user.role); // Set the logged-in user to state
+          setUser(response.data.user); // Set the logged-in user to state
         } catch (error) {
           console.log(error);
         }
@@ -36,13 +37,10 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
       try {
         const response = await makeApi("/api/get-all-users", "GET");
         const allUsers = await response.data.user;
-        if (user === "admin") {
+        if (user.role === "admin") {
           await setUsers(allUsers);
-        } else if (user === "delivryboy") {
+        } else if (user.role === "delivryboy") {
           await setUsers([]);
-        } else if (user === "manager" || user === "user") {
-          const filteredUsers = await allUsers.filter(user => user.role === "manager" || user.role === "delivryboy");
-          await setUsers(filteredUsers);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
