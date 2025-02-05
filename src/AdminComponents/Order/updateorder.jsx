@@ -23,7 +23,7 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
       const checkUserRole = async () => {
         try {
           const response = await makeApi("/api/my-profile", "GET");
-          setUser(response.data.user); // Set the logged-in user to state
+          setUser(response?.data?.user); // Set the logged-in user to state
         } catch (error) {
           console.log(error);
         }
@@ -36,10 +36,10 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
     const fetchUsers = async () => {
       try {
         const response = await makeApi("/api/get-all-users", "GET");
-        const allUsers = await response.data.user;
-        if (user.role === "admin") {
+        const allUsers = await response?.data?.user;
+        if (user?.role === "admin") {
           await setUsers(allUsers);
-        } else if (user.role === "delivryboy") {
+        } else if (user?.role === "delivryboy") {
           await setUsers([]);
         }
       } catch (error) {
@@ -163,7 +163,7 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
                 />
                 Pending
               </label>
-              {(user.role === "admin" || user.role === "manager") && (
+              {(user?.role === "admin" || user?.role === "manager") && (
                 <label>
                   <input
                     type="radio"
@@ -197,21 +197,21 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
               </label>
             </div>
 
-            {updatedOrderData.status === "Delivered" && (
+            {updatedOrderData?.status === "Delivered" && (
               <div>
                 <label>Delivered By:</label>
                 <div className="radio-group">
-                  {users.map((user) => (
+                  {users?.map((user) => (
 
                     <label key={user._id}>
                       <input
                         type="radio"
                         name="deliveredBy"
-                        value={user.username}
-                        checked={updatedOrderData.deliveredBy === user.username}
+                        value={user?.username}
+                        checked={updatedOrderData?.deliveredBy === user?.username}
                         onChange={handleInputChange}
                       />
-                      {user.username}
+                      {user?.username}
                     </label>
                   ))}
                 </div>

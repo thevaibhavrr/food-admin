@@ -161,7 +161,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
       setLoading(true);
       try {
         const response = await makeApi(`/api/get-second-order-by-id/${orderId}`, "GET");
-        const orderData = response.data.order;
+        const orderData = response?.data?.order;
         setOrder(orderData);
         setUpdatedOrderData({
           paymentMethod: orderData?.paymentMethod || "",
@@ -242,7 +242,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
           <h2>Update Order</h2>
           <div className="update_product-order-products">
             <h3>Products:</h3>
-            {updatedOrderData.products.map((product, index) => (
+            {updatedOrderData?.products?.map((product, index) => (
               <div key={product._id} className="update_product-product-item">
                 {/* Product name */}
                 <p>Name: {product.name}</p>
@@ -264,7 +264,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
               </div>
             ))}
           </div>
-          <h3>Total Amount: {updatedOrderData.totalAmount}</h3>
+          <h3>Total Amount: {updatedOrderData?.totalAmount}</h3>
           <div className="update_product-button-group">
             <button onClick={onClose}>Close</button>
             <button onClick={handleUpdateOrder}>Update Order</button>

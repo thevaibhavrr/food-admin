@@ -23,7 +23,7 @@ function AllOrder() {
       const checkUserRole = async () => {
         try {
           const response = await makeApi("/api/my-profile", "GET");
-          setUser(response.data.user);
+          setUser(response?.data?.user);
         } catch (error) {
           console.log(error);
         }
@@ -103,7 +103,7 @@ function AllOrder() {
 
   const handleSeenToggle = async (orderId) => {
     try {
-      const updatedOrderData = { Isseen: "true", seenby: user.username };
+      const updatedOrderData = { Isseen: "true", seenby: user?.username };
       await makeApi(`/api/update-second-order-by-id/${orderId}`, "PUT", updatedOrderData);
       fetchOrders(); // Refresh orders after update
     } catch (error) {
@@ -244,7 +244,7 @@ function AllOrder() {
                     >
                       Update Order
                     </div>
-                    {(user.role === "admin" || user.role === "manager") && (
+                    {(user?.role === "admin" || user?.role === "manager") && (
                       <div
                         className="all_order_order_update_button"
                         onClick={() => handleOpenPopupforproduct(order._id)}
