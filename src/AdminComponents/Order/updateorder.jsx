@@ -58,14 +58,14 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
           `/api/get-second-order-by-id/${orderId}`,
           "GET"
         );
-        const orderData = response.data.order;
+        const orderData = response?.data?.order;
         setOrder(orderData);
 
         setUpdatedOrderData((prevData) => ({
           ...prevData,
           paymentMethod: orderData?.paymentMethod || "",
           status: orderData?.status || "",
-          deliveredBy: orderData?.deliveredBy || user?.username || "",
+          deliveredBy: orderData?.deliveredBy ||  "",
         }));
       } catch (error) {
         console.log(error);
@@ -229,6 +229,14 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
 };
 
 export default UpdateOrderPopup;
+
+
+
+
+
+
+
+
 // import React, { useState, useEffect } from "react";
 // import { makeApi } from "../../api/callApi";
 // import "../../adminCss/order/updateorder.css";
