@@ -305,7 +305,7 @@ function Admin() {
           <Route
             path="/all-orders"
             element={
-              <PrivateRoute allowedRoles={['admin',"user","delivryboy"]}>
+              <PrivateRoute allowedRoles={['admin',"user","delivryboy","manager"]}>
                 <Allorder />
               </PrivateRoute>
             }

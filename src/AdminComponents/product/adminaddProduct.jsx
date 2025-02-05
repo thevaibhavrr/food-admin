@@ -323,7 +323,7 @@ function AdminAddProduct() {
   const [Loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [shopPrices, setShopPrices] = useState([{ shopname: "", price: "", poistionId: "", active: "true", ourprice: "" }]);
+  const [shopPrices, setShopPrices] = useState([]);
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [thumbnail, setThumbnail] = useState("");
   const [category, setCategory] = useState("");

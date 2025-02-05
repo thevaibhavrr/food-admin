@@ -3,31 +3,34 @@ import "../../adminCss/order/allorder.css";
 import { makeApi } from "../../api/callApi";
 import UpdateOrderPopup from "./updateorder";
 import Loader from "../../components/loader/loader";
+import UpdateOrderProductPopup from "./updateproduct";
 
 function AllOrder() {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
   const [status, setStatus] = useState("Pending");
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [selectedOrderIdforproduct, setSelectedOrderIdforproduct] = useState(null);
+
   const [selectedStatus, setSelectedStatus] = useState("Pending");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
-    const [user, setUser] = useState(null); // Store user role
-  
+  const [user, setUser] = useState(null); // Store user role
 
-     useEffect(() => {
-        if (localStorage.getItem("token")) {
-          const checkUserRole = async () => {
-            try {
-              const response = await makeApi("/api/my-profile", "GET");
-              setUser(response.data.user); 
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          checkUserRole();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const checkUserRole = async () => {
+        try {
+          const response = await makeApi("/api/my-profile", "GET");
+          setUser(response.data.user);
+        } catch (error) {
+          console.log(error);
         }
-      }, []);
+      };
+      checkUserRole();
+    }
+  }, []);
 
   const fetchOrders = async () => {
     try {
@@ -57,9 +60,15 @@ function AllOrder() {
   const handleOpenPopup = (orderId) => {
     setSelectedOrderId(orderId);
   };
+  const handleOpenPopupforproduct = (orderId) => {
+    setSelectedOrderIdforproduct(orderId);
+  };
 
   const handleClose = () => {
     setSelectedOrderId(null);
+  };
+  const handleCloseproduct = () => {
+    setSelectedOrderIdforproduct(null);
   };
 
   const handleOpenDeleteConfirm = (orderId) => {
@@ -94,11 +103,11 @@ function AllOrder() {
 
   const handleSeenToggle = async (orderId) => {
     try {
-      const updatedOrderData = { Isseen: "true" , seenby: user.username };
+      const updatedOrderData = { Isseen: "true", seenby: user.username };
       await makeApi(`/api/update-second-order-by-id/${orderId}`, "PUT", updatedOrderData);
       fetchOrders(); // Refresh orders after update
     } catch (error) {
-      console.error("Error updating Isseen:", error); 
+      console.error("Error updating Isseen:", error);
     }
   };
 
@@ -176,7 +185,7 @@ function AllOrder() {
                           <p><b>Name:</b> {item?.productId?.name}</p>
                           <p><b>Price:</b> ₹{item?.SingelProductPrice}</p>
                           <p><b>Quantity:</b> {item?.quantity}</p>
-                          <p><b>Total:</b> ₹{item?.SingelProductPrice} × {item?.quantity} = ₹{item?.SingelProductPrice * item?.quantity} </p>
+                          <p  ><b>Total:</b> ₹{item?.SingelProductPrice} × {item?.quantity} = ₹{item?.SingelProductPrice * item?.quantity} </p>
                           {item?.shopname && <p><b>Shop Name:</b> <span style={{ backgroundColor: "red", padding: "5px 10px", borderRadius: "5px" }}>{item?.shopname}</span></p>}
                         </div>
                       </div>
@@ -189,27 +198,27 @@ function AllOrder() {
                     {/* <div><b>Mobile Number:</b> {order.mobileNumber}</div> */}
                     <div>
                       <b>Mobile Number:</b>
-                        {order.mobileNumber}
+                      {order.mobileNumber}
                       <a href={`tel:${order.mobileNumber}`} style={{ textDecoration: 'none', color: 'inherit' }}>
 
-                   <button style={{ marginLeft: "10px" , backgroundColor: "yellow", padding: "5px 10px", borderRadius: "5px" }} >call</button>
+                        <button style={{ marginLeft: "10px", backgroundColor: "yellow", padding: "5px 10px", borderRadius: "5px" }} >call</button>
                       </a>
                     </div>
 
                     <div><b>Status:</b> {order.status}</div>
-                    <div><b>Total Price:</b> ₹{formatNumber(order.totalAmount)}</div>
+                    <div className="btn btn-outline-dark" ><>Total Price:</> <b style={{ fontSize: '20px' }} > ₹{formatNumber(order.totalAmount)}</b></div>
                     <div style={{ backgroundColor: "green", padding: "5px 10px", borderRadius: "5px" }}><b>Created At:</b> {formatDate(order.createdAt)}</div>
-                    <div><b>Delivered At:</b> {formatDate(order.deliveredAt)}</div>
+
                     <div> <b>delivered By:</b> <span style={{ backgroundColor: "yellow", padding: "5px 10px", borderRadius: "5px" }} > {order?.deliveredBy}</span> </div>
                   </div>
 
                   <div className="action-buttons">
-                    <label style={{marginBottom: '10px'}} >
+                    <label style={{ marginBottom: '10px' }} >
                       <input
                         type="checkbox"
                         checked={order.Isseen === "true"}
                         onChange={() => handleSeenToggle(order._id)}
-                        style={{ transform: 'scale(1.8)', marginRight: '8px' }} 
+                        style={{ transform: 'scale(1.8)', marginRight: '8px' }}
                       />
                       Seen
                     </label>
@@ -234,6 +243,14 @@ function AllOrder() {
                     >
                       Update Order
                     </div>
+                    {(user.role === "admin" || user.role === "manager") && (
+                      <div
+                        className="all_order_order_update_button"
+                        onClick={() => handleOpenPopupforproduct(order._id)}
+                      >
+                        Update Order product
+                      </div>
+                    )}
                   </div>
                 </div>
               ))
@@ -243,6 +260,7 @@ function AllOrder() {
       </div>
 
       {selectedOrderId && <UpdateOrderPopup orderId={selectedOrderId} onClose={handleClose} />}
+      {selectedOrderIdforproduct && <UpdateOrderProductPopup orderId={selectedOrderIdforproduct} onClose={handleCloseproduct} />}
 
       {showDeleteConfirm && (
         <div className="delete-confirm-popup">

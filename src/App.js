@@ -19,8 +19,8 @@ console.log(apiUrl);
       <Route path="/" element={<LoginForm />} />
 
         <Route path="/admin/*" element={<Admin />} />{" "}
-        <Route path="/s" element={<Adduser />} />{" "}
-        <Route path="/admin" element={<Admindasboard />} />
+        {/* <Route path="/s" element={<Adduser />} />{" "} */}
+        {/* <Route path="/admin" element={<Admindasboard />} /> */}
         {/* <Route path="/today" element={<TodayReport />} /> */}
       </Routes>
     </div>
