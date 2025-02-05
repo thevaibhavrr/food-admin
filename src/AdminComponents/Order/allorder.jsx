@@ -186,7 +186,7 @@ function AllOrder() {
                           <p><b>Price:</b> ₹{item?.SingelProductPrice}</p>
                           <p><b>Quantity:</b> {item?.quantity}</p>
                           <p  ><b>Total:</b> ₹{item?.SingelProductPrice} × {item?.quantity} = ₹{item?.SingelProductPrice * item?.quantity} </p>
-                          {item?.shopname && <p><b>Shop Name:</b> <span style={{ backgroundColor: "red", padding: "5px 10px", borderRadius: "5px" }}>{item?.shopname}</span></p>}
+                          {item?.shopname && <p><b>Shop Name:</b> <span style={{ backgroundColor: "red",color: "white", padding: "5px 10px", borderRadius: "5px" }}>{item?.shopname}</span></p>}
                         </div>
                       </div>
                     ))}
@@ -194,6 +194,7 @@ function AllOrder() {
 
                   <div className="order_details all_order_details">
                     <div><b>Address:</b> {order.address}</div>
+                    {order.village && <div  ><b>Village:</b> <sapn className="bg-dark text-white w-50 px-3" > {order.village} </sapn> </div>}
                     <div><b>Name:</b> {order?.username}</div>
                     {/* <div><b>Mobile Number:</b> {order.mobileNumber}</div> */}
                     <div>
