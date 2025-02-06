@@ -4,7 +4,6 @@
 // import { Link } from "react-router-dom";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-// import { fetchCategory } from "../../utils/CFunctions";
 // import uploadToCloudinary from "../../utils/cloudinaryUpload";
 // import Loader from "../../components/loader/loader";
 
@@ -13,7 +12,7 @@
 //   const [Loading, setLoading] = useState(false);
 //   const [name, setName] = useState("");
 //   const [price, setPrice] = useState("");
-//   const [shopPrices, setShopPrices] = useState([{ shopname: "", price: "", poistionId: "", active: "true" }]);
+//   const [shopPrices, setShopPrices] = useState([]);
 //   const [discountPercentage, setDiscountPercentage] = useState(0);
 //   const [thumbnail, setThumbnail] = useState("");
 //   const [category, setCategory] = useState("");
@@ -24,46 +23,47 @@
 //   const [FinalPrice, setFinalPrice] = useState(0);
 //   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
 //   const [user, setUser] = useState(null);
+//   const [shopname, setShopname] = useState("");
 
-
-
-
+//   // Function to fetch categories and filter based on user access
 //   const fetchCategory = async () => {
 //     try {
 //       setLoading(true);
 //       const response = await makeApi("/api/get-all-categories", "GET");
+//       if (user.role === "admin") {
+//         setCategories(response.data);
+//       } else {
+//         // Ensure user data is loaded before accessing it
+//         const accessibleCategoryIds = user?.categoryacess || [];
 
-//       const accessibleCategoryIds = await user?.categoryacess || [];
-//       console.log("user", accessibleCategoryIds);
-//       // Filter categories based on user's access
-//       const accessibleCategories = await response.data.filter(category =>
-//         accessibleCategoryIds.includes(category._id)
-//       );
-//       console.log("accessibleCategories", accessibleCategories);
-//       setCategories(accessibleCategories);
+//         // Filter categories based on user's access
+//         const accessibleCategories = response.data.filter(category =>
+//           accessibleCategoryIds.includes(category._id)
+//         );
+//         setCategories(accessibleCategories);
+//       }
 //     } catch (error) {
 //       console.log("Error fetching categories:", error);
 //     } finally {
 //       setLoading(false);
 //     }
 //   };
+
 //   useEffect(() => {
+//     if (user) {
+//       // Fetch categories once the user data is available
+//       fetchCategory();
+//     }
+//   }, [user]); // Add 'user' as a dependency
 
-//     fetchCategory();
-//   }, []);
-
-
-
-//   const calculateFinalPrice = (price, discountPercentage) => {
-//     const finalPrice = price - (price * (discountPercentage / 100));
-//     return Math.round(finalPrice);
-//   };
+//   // Fetch user profile on component mount
 //   useEffect(() => {
 //     if (localStorage.getItem("token")) {
 //       const checkUserRole = async () => {
 //         try {
 //           const response = await makeApi("/api/my-profile", "GET");
-//           setUser(response.data.user); // Set the logged-in user to state
+//           setShopname(response?.data?.user?.shopname);
+//           setUser(response?.data?.user); // Set the logged-in user to state
 //         } catch (error) {
 //           console.log(error);
 //         }
@@ -71,6 +71,12 @@
 //       checkUserRole();
 //     }
 //   }, []);
+
+//   const calculateFinalPrice = (price, discountPercentage) => {
+//     const finalPrice = price - (price * (discountPercentage / 100));
+//     return Math.round(finalPrice);
+//   };
+
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     setLoading(true);
@@ -94,6 +100,7 @@
 //       const response = await makeApi("/api/create-product", "POST", {
 //         name,
 //         shopPrices,
+//         shopname,
 //         price,
 //         discountPercentage,
 //         FinalPrice: finalPrice,
@@ -109,7 +116,7 @@
 
 //       // Reset the form fields
 //       setName("");
-//       setShopPrices([{ shopname: "", price: "", poistionId: "", active: "true" }]);
+//       setShopPrices([{ shopname: "", price: "", poistionId: "", active: "true", ourprice: "" }]);
 //       setPrice("");
 //       setDiscountPercentage(0);
 //       setThumbnail("");
@@ -139,8 +146,6 @@
 //     }
 //   };
 
-
-
 //   return (
 //     <div className="add-product-container">
 //       <div className="header-section">
@@ -168,6 +173,7 @@
 //       <form onSubmit={handleSubmit} className="form-section">
 //         <div className="section-wrapper">
 //           <h3>Product Details</h3>
+//           <p>shop :  {shopname}</p>
 //           <input
 //             type="text"
 //             className="add_product_input_filed"
@@ -176,80 +182,83 @@
 //             onChange={(e) => setName(e.target.value)}
 //           />
 //         </div>
+//         {user?.role === "admin" && (
+//           <div className="section-wrapper">
+//             <h3>Shop Prices</h3>
+//             {shopPrices.map((shopPrice, index) => (
+//               <div key={index} className="shop-price-row">
+//                 <input
+//                   type="text"
+//                   className="add_product_input_filed"
+//                   placeholder="Shop Name"
+//                   value={shopPrice.shopname}
+//                   onChange={(e) => {
+//                     const updatedShopPrices = [...shopPrices];
+//                     updatedShopPrices[index].shopname = e.target.value;
+//                     setShopPrices(updatedShopPrices);
+//                   }}
+//                 />
+//                 <input
+//                   type="number"
+//                   className="add_product_input_filed"
+//                   placeholder="Price"
+//                   value={shopPrice.price}
+//                   onChange={(e) => {
+//                     const updatedShopPrices = [...shopPrices];
+//                     updatedShopPrices[index].price = e.target.value;
+//                     setShopPrices(updatedShopPrices);
+//                   }}
+//                 />
+//                 <input
+//                   type="number"
+//                   className="add_product_input_filed"
+//                   placeholder="Position ID"
+//                   value={shopPrice.poistionId}
+//                   onChange={(e) => {
+//                     const updatedShopPrices = [...shopPrices];
+//                     updatedShopPrices[index].poistionId = e.target.value;
+//                     setShopPrices(updatedShopPrices);
+//                   }}
+//                 />
+//                 {/* ourprice */}
+//                 <input
+//                   type="number"
+//                   className="add_product_input_filed"
+//                   placeholder="ourprice"
+//                   value={shopPrice.ourprice}
+//                   onChange={(e) => {
+//                     const updatedShopPrices = [...shopPrices];
+//                     updatedShopPrices[index].ourprice = e.target.value;
+//                     setShopPrices(updatedShopPrices);
+//                   }}
+//                 />
+//                 <button
+//                   type="button"
+//                   className="btn btn-danger"
+//                   onClick={() => {
+//                     const updatedShopPrices = shopPrices.filter((_, i) => i !== index);
+//                     setShopPrices(updatedShopPrices);
+//                   }}
+//                 >
+//                   Remove
+//                 </button>
+//               </div>
+//             ))}
+//             <button
+//               type="button"
+//               className="btn btn-warning"
+//               onClick={() => setShopPrices([...shopPrices, { shopname: "", price: "" }])}
+//             >
+//               Add Shop Price
+//             </button>
+//           </div>
+//         )}
 
-//         <div className="section-wrapper">
-//           <h3>Shop Prices</h3>
-//           {shopPrices.map((shopPrice, index) => (
-//             <div key={index} className="shop-price-row">
-//               <input
-//                 type="text"
-//                 className="add_product_input_filed"
-//                 placeholder="Shop Name"
-//                 value={shopPrice.shopname}
-//                 onChange={(e) => {
-//                   const updatedShopPrices = [...shopPrices];
-//                   updatedShopPrices[index].shopname = e.target.value;
-//                   setShopPrices(updatedShopPrices);
-//                 }}
-//               />
-//               <input
-//                 type="number"
-//                 className="add_product_input_filed"
-//                 placeholder="Price"
-//                 value={shopPrice.price}
-//                 onChange={(e) => {
-//                   const updatedShopPrices = [...shopPrices];
-//                   updatedShopPrices[index].price = e.target.value;
-//                   setShopPrices(updatedShopPrices);
-//                 }}
-//               />
-//               <input
-//                 type="number"
-//                 className="add_product_input_filed"
-//                 placeholder="Position ID"
-//                 value={shopPrice.poistionId}
-//                 onChange={(e) => {
-//                   const updatedShopPrices = [...shopPrices];
-//                   updatedShopPrices[index].poistionId = e.target.value;
-//                   setShopPrices(updatedShopPrices);
-//                 }}
-//               />
-//               <select
-//                 className="add_product_input_filed"
-//                 value={shopPrice.active}
-//                 onChange={(e) => {
-//                   const updatedShopPrices = [...shopPrices];
-//                   updatedShopPrices[index].active = e.target.value;
-//                   setShopPrices(updatedShopPrices);
-//                 }}
-//               >
-//                 <option value="true">Active</option>
-//                 <option value="false">Inactive</option>
-//               </select>
-
-//               <button
-//                 type="button"
-//                 className="remove-shop-price-btn"
-//                 onClick={() => {
-//                   const updatedShopPrices = shopPrices.filter((_, i) => i !== index);
-//                   setShopPrices(updatedShopPrices);
-//                 }}
-//               >
-//                 Remove
-//               </button>
-//             </div>
-//           ))}
-//           <button
-//             type="button"
-//             className="add-shop-price-btn"
-//             onClick={() => setShopPrices([...shopPrices, { shopname: "", price: "" }])}
-//           >
-//             Add Shop Price
-//           </button>
-//         </div>
 
 //         <div className="section-wrapper">
 //           <h3>Price & Discount</h3>
+
+
 //           <input
 //             type="number"
 //             className="add_product_input_filed"
@@ -271,6 +280,15 @@
 //             value={calculateFinalPrice(price, discountPercentage)}
 //             readOnly
 //           />
+//           {/* setOurprice */}
+//           <input
+//             type="number"
+//             className="add_product_input_filed"
+//             placeholder="ourprice"
+//             value={ourprice}
+//             onChange={(e) => setOurprice(e.target.value)}
+//           />
+
 //         </div>
 
 //         <div className="section-wrapper">
@@ -309,6 +327,7 @@
 
 // export default AdminAddProduct;
 
+
 import React, { useState, useEffect } from "react";
 import "../../adminCss/product/adminaddProduct.css";
 import { makeApi } from "../../api/callApi";
@@ -326,7 +345,8 @@ function AdminAddProduct() {
   const [shopPrices, setShopPrices] = useState([]);
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [thumbnail, setThumbnail] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(""); // For single category
+  const [multicategory, setMulticategory] = useState([]); // For multiple categories
   const [availableTimes, setAvailableTimes] = useState([]);
   const [minorderquantity, setMinorderquantity] = useState("");
   const [packof, setPackof] = useState("");
@@ -395,7 +415,7 @@ function AdminAddProduct() {
     const requiredFields = [];
     if (!name) requiredFields.push("Name");
     if (!price && shopPrices.length === 0) requiredFields.push("Price or Shop Prices");
-    if (!category) requiredFields.push("Category");
+    if (!category && multicategory.length === 0) requiredFields.push("Category");
     if (!thumbnail) requiredFields.push("Thumbnail");
 
     if (requiredFields.length > 0) {
@@ -416,7 +436,8 @@ function AdminAddProduct() {
         discountPercentage,
         FinalPrice: finalPrice,
         thumbnail,
-        category,
+        // category,
+        multicategory, // Multiple categories
         availableTimes,
         minorderquantity,
         packof,
@@ -432,6 +453,7 @@ function AdminAddProduct() {
       setDiscountPercentage(0);
       setThumbnail("");
       setCategory("");
+      setMulticategory([]); // Reset multiple categories
       setAvailableTimes([]);
       setMinorderquantity("");
       setPackof("");
@@ -455,6 +477,14 @@ function AdminAddProduct() {
     } catch (error) {
       toast.error("Thumbnail upload failed.");
     }
+  };
+
+  // Handle multiple category selection
+  const handleMulticategoryChange = (e) => {
+    const { value, checked } = e.target;
+    setMulticategory((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
+    );
   };
 
   return (
@@ -484,7 +514,7 @@ function AdminAddProduct() {
       <form onSubmit={handleSubmit} className="form-section">
         <div className="section-wrapper">
           <h3>Product Details</h3>
-          <p>shop :  {shopname}</p>
+          <p>shop : {shopname}</p>
           <input
             type="text"
             className="add_product_input_filed"
@@ -493,96 +523,9 @@ function AdminAddProduct() {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        {user?.role === "admin" && (
-          <div className="section-wrapper">
-            <h3>Shop Prices</h3>
-            {shopPrices.map((shopPrice, index) => (
-              <div key={index} className="shop-price-row">
-                <input
-                  type="text"
-                  className="add_product_input_filed"
-                  placeholder="Shop Name"
-                  value={shopPrice.shopname}
-                  onChange={(e) => {
-                    const updatedShopPrices = [...shopPrices];
-                    updatedShopPrices[index].shopname = e.target.value;
-                    setShopPrices(updatedShopPrices);
-                  }}
-                />
-                <input
-                  type="number"
-                  className="add_product_input_filed"
-                  placeholder="Price"
-                  value={shopPrice.price}
-                  onChange={(e) => {
-                    const updatedShopPrices = [...shopPrices];
-                    updatedShopPrices[index].price = e.target.value;
-                    setShopPrices(updatedShopPrices);
-                  }}
-                />
-                <input
-                  type="number"
-                  className="add_product_input_filed"
-                  placeholder="Position ID"
-                  value={shopPrice.poistionId}
-                  onChange={(e) => {
-                    const updatedShopPrices = [...shopPrices];
-                    updatedShopPrices[index].poistionId = e.target.value;
-                    setShopPrices(updatedShopPrices);
-                  }}
-                />
-                {/* ourprice */}
-                <input
-                  type="number"
-                  className="add_product_input_filed"
-                  placeholder="ourprice"
-                  value={shopPrice.ourprice}
-                  onChange={(e) => {
-                    const updatedShopPrices = [...shopPrices];
-                    updatedShopPrices[index].ourprice = e.target.value;
-                    setShopPrices(updatedShopPrices);
-                  }}
-                />
-                {/* <select
-                className="add_product_input_filed"
-                value={shopPrice.active}
-                onChange={(e) => {
-                  const updatedShopPrices = [...shopPrices];
-                  updatedShopPrices[index].active = e.target.value;
-                  setShopPrices(updatedShopPrices);
-                }}
-              >
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-              </select> */}
-
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => {
-                    const updatedShopPrices = shopPrices.filter((_, i) => i !== index);
-                    setShopPrices(updatedShopPrices);
-                  }}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              className="btn btn-warning"
-              onClick={() => setShopPrices([...shopPrices, { shopname: "", price: "" }])}
-            >
-              Add Shop Price
-            </button>
-          </div>
-        )}
-
 
         <div className="section-wrapper">
           <h3>Price & Discount</h3>
-
-
           <input
             type="number"
             className="add_product_input_filed"
@@ -604,7 +547,6 @@ function AdminAddProduct() {
             value={calculateFinalPrice(price, discountPercentage)}
             readOnly
           />
-          {/* setOurprice */}
           <input
             type="number"
             className="add_product_input_filed"
@@ -612,7 +554,6 @@ function AdminAddProduct() {
             value={ourprice}
             onChange={(e) => setOurprice(e.target.value)}
           />
-
         </div>
 
         <div className="section-wrapper">
@@ -639,6 +580,22 @@ function AdminAddProduct() {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="section-wrapper">
+          <h3>Multiple Categories</h3>
+          {categories.map((cat) => (
+            <div key={cat._id} className="checkbox-wrapper">
+              <input
+                type="checkbox"
+                id={cat._id}
+                value={cat._id}
+                checked={multicategory.includes(cat._id)}
+                onChange={handleMulticategoryChange}
+              />
+              <label htmlFor={cat._id}>{cat.name}</label>
+            </div>
+          ))}
         </div>
 
         <button type="submit" className="admin_add_product_button">
