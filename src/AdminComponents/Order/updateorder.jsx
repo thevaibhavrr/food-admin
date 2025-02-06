@@ -65,7 +65,7 @@ const UpdateOrderPopup = ({ orderId, onClose }) => {
           ...prevData,
           paymentMethod: orderData?.paymentMethod || "",
           status: orderData?.status || "",
-          deliveredBy: orderData?.deliveredBy ||  "",
+          deliveredBy: orderData?.deliveredBy ||user?.username || "",
         }));
       } catch (error) {
         console.log(error);
