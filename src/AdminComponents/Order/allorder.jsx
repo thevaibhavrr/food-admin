@@ -244,7 +244,7 @@ function AllOrder() {
                     >
                       Update Order
                     </div>
-                    {(user?.role === "admin" ) && (
+                    {(user?.role === "admin") && (
                       <div
                         className="all_order_order_update_button"
                         onClick={() => handleOpenPopupforproduct(order._id)}
