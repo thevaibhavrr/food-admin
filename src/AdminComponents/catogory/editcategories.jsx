@@ -131,7 +131,7 @@ const EditCategory = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
   const [closed, setClosed] = useState("");
-
+const [type, setType] = useState("");
   const { Id } = useParams(); // Get category ID from URL
   const navigate = useNavigate(); // Use to navigate after successful update
 
@@ -145,6 +145,7 @@ const EditCategory = () => {
         setDescription(category.active);
         setThumbnail(category.image); // Assuming `image` is the category image URL
         setClosed(category.closed);
+        setType(category.type);
       } catch (error) {
         console.error("Error fetching category details:", error);
         setErrorMessage("Error fetching category details.");
@@ -225,13 +226,13 @@ const EditCategory = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="active" className="form-label">
-                Description:
+              type:
               </label>
               <input
                 id="active"
                 className="form-control"
-                value={active}
-                onChange={(e) => setDescription(e.target.value)}
+                value={type}
+                onChange={(e) => setType(e.target.value)}
               />
             </div>
 
