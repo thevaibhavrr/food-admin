@@ -90,7 +90,7 @@ const AddCategory = () => {
               />
             </div>
 
-           <div>
+           <div className="mb-3">
             <label htmlFor="setType" className="form-label">setType:</label>
             <input
               type="text"
