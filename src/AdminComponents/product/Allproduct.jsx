@@ -198,6 +198,7 @@ const Allproduct = () => {
   const [toalProduct, setToalProduct] = useState(0);
   const [categories, setCategories] = useState([]); // All categories
   const [selectedCategory, setSelectedCategory] = useState(""); // Selected category for filtering
+  const [user, setUser] = useState(null);
 
   // Fetch products with pagination and category filter
   useEffect(() => {
@@ -273,6 +274,25 @@ const Allproduct = () => {
     setCurrentPage(pageNumber);
   };
 
+  // call search api on when any changes in search query
+  useEffect(() => {
+    handleSearch();
+  }, [searchQuery]);
+
+    useEffect(() => {
+      if (localStorage.getItem("token")) {
+        const checkUserRole = async () => {
+          try {
+            const response = await makeApi("/api/my-profile", "GET");
+            setUser(response?.data?.user.role); // Set the logged-in user to state
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        checkUserRole();
+      }
+    }, []);
+
   return (
     <>
       <div className="admin_product_page_container">
@@ -283,6 +303,8 @@ const Allproduct = () => {
         </div>
 
         {/* Search Box and Category Filter */}
+        {user === "admin" && (
+          
         <div className="filters_container">
           <div className="search_container">
             <input
@@ -312,6 +334,7 @@ const Allproduct = () => {
             </select>
           </div>
         </div>
+        )}
 
         {loading ? (
           <Loader />
