@@ -184,7 +184,7 @@
 //                 ))}
 //               </div>
 
-             
+
 
 //               </>
 //             )}
@@ -480,78 +480,78 @@ function AddUserForm() {
       </div>
 
       {showEditPopup && (
-  <div className="add_user_page_popup">
-    <div className="add_user_page_popup_content">
-      <h3>Edit User</h3>
-      <div className="add_user_page_inputContainer">
-        <input
-          type="text"
-          className="add_user_page_inputField"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
+        <div className="add_user_page_popup">
+          <div className="add_user_page_popup_content">
+            <h3>Edit User</h3>
+            <div className="add_user_page_inputContainer">
+              <input
+                type="text"
+                className="add_user_page_inputField"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
 
-      <div className="add_user_page_inputContainer">
-        <input
-          type="number"
-          className="add_user_page_inputField"
-          placeholder="Mobile Number"
-          value={mobileNumber}
-          onChange={(e) => setMobileNumber(e.target.value)}
-        />
-      </div>
+            <div className="add_user_page_inputContainer">
+              <input
+                type="number"
+                className="add_user_page_inputField"
+                placeholder="Mobile Number"
+                value={mobileNumber}
+                onChange={(e) => setMobileNumber(e.target.value)}
+              />
+            </div>
 
-      <div className="add_user_page_inputContainer">
-        <select
-          className="add_user_page_inputField"
-          value={role}
-          required
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="admin">Admin</option>
-          <option value="supersaller">Super saller</option>
-          <option value="saller">Saller</option>
-          <option value="delivryboy">Delivry Boy</option>
-          <option value="manager">Manager</option>
-        </select>
-      </div>
+            <div className="add_user_page_inputContainer">
+              <select
+                className="add_user_page_inputField"
+                value={role}
+                required
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="admin">Admin</option>
+                <option value="supersaller">Super saller</option>
+                <option value="saller">Saller</option>
+                <option value="delivryboy">Delivry Boy</option>
+                <option value="manager">Manager</option>
+              </select>
+            </div>
 
-      {(role === "saller" || role === "supersaller") && (
-        <>
-          <div className="add_user_page_inputContainer">
-            <input
-              type="text"
-              className="add_user_page_inputField"
-              placeholder="Shop Name"
-              value={shop}
-              onChange={(e) => setShop(e.target.value)}
-            />
+            {(role === "saller" || role === "supersaller") && (
+              <>
+                <div className="add_user_page_inputContainer">
+                  <input
+                    type="text"
+                    className="add_user_page_inputField"
+                    placeholder="Shop Name"
+                    value={shop}
+                    onChange={(e) => setShop(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <h4>Select Categories</h4>
+                  {categories.map((category) => (
+                    <div key={category._id}>
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(category._id)}
+                        onChange={() => handleCategoryChange(category._id)}
+                      />
+                      {category.name}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            <div className="add_user_page_popup_actions">
+              <button onClick={() => setShowEditPopup(false)}>Cancel</button>
+              <button onClick={handleUpdateUser}>Update</button>
+            </div>
           </div>
-          <div>
-            <h4>Select Categories</h4>
-            {categories.map((category) => (
-              <div key={category._id}>
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.includes(category._id)}
-                  onChange={() => handleCategoryChange(category._id)}
-                />
-                {category.name}
-              </div>
-            ))}
-          </div>
-        </>
+        </div>
       )}
-
-      <div className="add_user_page_popup_actions">
-        <button onClick={() => setShowEditPopup(false)}>Cancel</button>
-        <button onClick={handleUpdateUser}>Update</button>
-      </div>
-    </div>
-  </div>
-)}
     </>
   );
 }

@@ -276,6 +276,30 @@ function Getallcatogory() {
                 ))}
               </ul>
             </div>
+            {/* Shop Section */}
+            <div className="category-section">
+              <h2 className="section-title">Repair</h2>
+              <ul className="category_list_ul">
+                {categories.filter((category) => category.type === "repair").map((category) => (
+                  <li
+                    key={category._id}
+                    draggable
+                    onDragStart={() => handleDragStart(category._id)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => handleDrop(category._id)}
+                  >
+                    <h3>{category.name}</h3>
+                    <img src={category.image} alt={category.name} className="category-img" />
+                    <div className="category-actions">
+                      <Link to={`/admin/category-update/${category._id}`}>
+                        <button className="edit_button_all_product">Edit</button>
+                      </Link>
+                      <button onClick={() => setDeleteProductId(category._id)} className="delete_button_all_product">Delete</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <ConfirmationModal
               isOpen={deleteProductId !== null}
               onClose={() => setDeleteProductId(null)}
