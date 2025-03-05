@@ -280,7 +280,7 @@ function Getallcatogory() {
             <div className="category-section">
               <h2 className="section-title">Repair</h2>
               <ul className="category_list_ul">
-                {categories.filter((category) => category.type === "repair").map((category) => (
+                {categories.filter((category) => category.type === ("repair" || "Repair" )).map((category) => (
                   <li
                     key={category._id}
                     draggable

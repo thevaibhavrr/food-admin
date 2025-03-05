@@ -1,7 +1,6 @@
-
 // import React, { useState, useEffect } from "react";
 // import { makeApi } from "../../api/callApi";
-// import "../../adminCss/order/updateorder.css";
+// import "../../adminCss/order/updateorderproduct.css";
 // import { ToastContainer, toast } from "react-toastify";
 // import Loader from "../../components/loader/loader";
 
@@ -22,7 +21,7 @@
 //       setLoading(true);
 //       try {
 //         const response = await makeApi(`/api/get-second-order-by-id/${orderId}`, "GET");
-//         const orderData = response.data.order;
+//         const orderData = response?.data?.order;
 //         setOrder(orderData);
 //         setUpdatedOrderData({
 //           paymentMethod: orderData?.paymentMethod || "",
@@ -97,15 +96,15 @@
 //   }
 
 //   return (
-//     <div className="popup-container">
+//     <div className="update_product-popup-container">
 //       {order && (
-//         <div className="popup-content-for-update-page">
+//         <div className="update_product-popup-content-for-update-page">
 //           <h2>Update Order</h2>
-//           <div className="order-products">
+//           <div className="update_product-order-products">
 //             <h3>Products:</h3>
-//             {updatedOrderData.products.map((product, index) => (
-//               <div key={product._id} className="product-item">
-//                 {/* prodcut name  */}
+//             {updatedOrderData?.products?.map((product, index) => (
+//               <div key={product._id} className="update_product-product-item">
+//                 {/* Product name */}
 //                 <p>Name: {product.name}</p>
 //                 <p>Shop: {product.shopname}</p>
 //                 <label>Quantity:</label>
@@ -125,8 +124,8 @@
 //               </div>
 //             ))}
 //           </div>
-//           <h3>Total Amount: {updatedOrderData.totalAmount}</h3>
-//           <div className="button-group">
+//           <h3>Total Amount: {updatedOrderData?.totalAmount}</h3>
+//           <div className="update_product-button-group">
 //             <button onClick={onClose}>Close</button>
 //             <button onClick={handleUpdateOrder}>Update Order</button>
 //           </div>
@@ -155,6 +154,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
     products: [],
     totalAmount: 0,
   });
+  const [additionalPrice, setAdditionalPrice] = useState(0);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -191,7 +191,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
     const newTotalAmount = updatedProducts.reduce(
       (sum, product) => sum + product.FinalPrice,
       0
-    );
+    ) + additionalPrice;
 
     setUpdatedOrderData((prev) => ({
       ...prev,
@@ -207,7 +207,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
     const newTotalAmount = updatedProducts.reduce(
       (sum, product) => sum + product.FinalPrice,
       0
-    );
+    ) + additionalPrice;
 
     setUpdatedOrderData((prev) => ({
       ...prev,
@@ -216,9 +216,27 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
     }));
   };
 
+  const handleAdditionalPriceChange = (e) => {
+    const newAdditionalPrice = Number(e.target.value);
+    setAdditionalPrice(newAdditionalPrice);
+
+    const newTotalAmount = updatedOrderData.products.reduce(
+      (sum, product) => sum + product.FinalPrice,
+      0
+    ) + newAdditionalPrice;
+
+    setUpdatedOrderData((prev) => ({
+      ...prev,
+      totalAmount: newTotalAmount,
+    }));
+  };
+
   const handleUpdateOrder = async () => {
     try {
-      await makeApi(`/api/update-second-order-by-id/${orderId}`, "PUT", updatedOrderData);
+      await makeApi(`/api/update-second-order-by-id/${orderId}`, "PUT", {
+        ...updatedOrderData,
+        additionalPrice,
+      });
       toast.success("Order updated successfully");
       onClose();
     } catch (error) {
@@ -263,6 +281,14 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
                 <button onClick={() => handleRemoveProduct(index)}>Remove</button>
               </div>
             ))}
+          </div>
+          <div className="update_product-additional-price">
+            <label>Additional Price:</label>
+            <input
+              type="text"
+              value={additionalPrice}
+              onChange={handleAdditionalPriceChange}
+            />
           </div>
           <h3>Total Amount: {updatedOrderData?.totalAmount}</h3>
           <div className="update_product-button-group">
