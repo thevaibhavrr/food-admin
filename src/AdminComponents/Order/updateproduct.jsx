@@ -278,7 +278,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
                   onChange={(e) => handleProductChange(index, "SingelProductPrice", Number(e.target.value))}
                 />
                 <p>Final Price: {product.FinalPrice}</p>
-                <button onClick={() => handleRemoveProduct(index)}>Remove</button>
+                <button className="btn btn-warning" onClick={() => handleRemoveProduct(index)}>Remove</button>
               </div>
             ))}
           </div>
@@ -292,7 +292,7 @@ const UpdateOrderProductPopup = ({ orderId, onClose }) => {
           </div>
           <h3>Total Amount: {updatedOrderData?.totalAmount}</h3>
           <div className="update_product-button-group">
-            <button onClick={onClose}>Close</button>
+            <button onClick={onClose} className="btn btn-danger" >Close</button>
             <button onClick={handleUpdateOrder}>Update Order</button>
           </div>
         </div>
