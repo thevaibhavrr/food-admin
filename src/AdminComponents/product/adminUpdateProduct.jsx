@@ -17,7 +17,7 @@ function UpdateProduct() {
   const [categories, setCategories] = useState([]); // State to store categories
   const [uploadProgress, setUploadProgress] = useState(0);
     const [multicategory, setMulticategory] = useState([]); // For multiple categories
-    console.log(multicategory);
+    const [subcategories, setSubcategories] = useState({}); // { categoryId: [subcategories] }
   
   const [formData, setFormData] = useState({
     name: "",
@@ -117,50 +117,7 @@ function UpdateProduct() {
       fetchProduct();
     }
   }, [userLoaded, productId]);
-  // useEffect(() => {
-  //   if (userLoaded) {
-  //     const fetchProduct = async () => {
-  //       try {
-  //         setLoading(true);
-
-  //         // Fetch product details
-  //         const response = await makeApi(`/api/get-single-product/${productId}`, "GET");
-  //         const productData = await response?.data?.product;
-  //         setProduct(productData);
-
-  //         // Set form data with product details
-  //         await setFormData({
-  //           name: productData?.name || "",
-  //           shopname: productData?.shopname || "",
-  //           price: productData?.price || "",
-  //           discountPercentage: productData?.discountPercentage || "",
-  //           FinalPrice: productData?.FinalPrice || "",
-  //           category: productData?.category?._id || "",
-  //           thumbnail: productData?.thumbnail || "",
-  //           availableTimes: productData?.availableTimes.join(", ") || "", // Convert array to comma separated string
-  //           minorderquantity: productData?.minorderquantity || "",
-  //           packof: productData?.packof || "",
-  //           active: productData?.active || "", // Ensure 'active' status is set
-  //           ourprice: productData?.ourprice || "",
-  //           shopPrices: productData?.shopPrices || [],
-  //         });
-
-  //         // Fetch categories
-  //         const categoryResponse = await fetchCategory();
-  //         setCategories(categoryResponse);
-  //       } catch (error) {
-  //         console.error("Error fetching product details:", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-
-  //     fetchProduct();
-  //   }
-  // }, [userLoaded, productId]);
-
-  // Handle Shop Price Changes
-
+  
   // Handle drag start for shop price reordering
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);

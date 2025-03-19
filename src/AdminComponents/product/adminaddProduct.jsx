@@ -15,12 +15,11 @@
 //   const [shopPrices, setShopPrices] = useState([]);
 //   const [discountPercentage, setDiscountPercentage] = useState(0);
 //   const [thumbnail, setThumbnail] = useState("");
-//   const [category, setCategory] = useState("");
+//   const [category, setCategory] = useState(""); // For single category
+//   const [multicategory, setMulticategory] = useState([]); // For multiple categories
 //   const [availableTimes, setAvailableTimes] = useState([]);
 //   const [minorderquantity, setMinorderquantity] = useState("");
-//   const [packof, setPackof] = useState("");
 //   const [ourprice, setOurprice] = useState("");
-//   const [FinalPrice, setFinalPrice] = useState(0);
 //   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
 //   const [user, setUser] = useState(null);
 //   const [shopname, setShopname] = useState("");
@@ -84,7 +83,7 @@
 //     const requiredFields = [];
 //     if (!name) requiredFields.push("Name");
 //     if (!price && shopPrices.length === 0) requiredFields.push("Price or Shop Prices");
-//     if (!category) requiredFields.push("Category");
+//     if (!category && multicategory.length === 0) requiredFields.push("Category");
 //     if (!thumbnail) requiredFields.push("Thumbnail");
 
 //     if (requiredFields.length > 0) {
@@ -105,10 +104,10 @@
 //         discountPercentage,
 //         FinalPrice: finalPrice,
 //         thumbnail,
-//         category,
+//         // category,
+//         multicategory, // Multiple categories
 //         availableTimes,
 //         minorderquantity,
-//         packof,
 //         ourprice,
 //       });
 
@@ -121,10 +120,9 @@
 //       setDiscountPercentage(0);
 //       setThumbnail("");
 //       setCategory("");
+//       setMulticategory([]); // Reset multiple categories
 //       setAvailableTimes([]);
 //       setMinorderquantity("");
-//       setPackof("");
-//       setFinalPrice(0);
 //       setThumbnailUploadProgress(0);
 //     } catch (error) {
 //       toast.error("Failed to add product.");
@@ -144,6 +142,14 @@
 //     } catch (error) {
 //       toast.error("Thumbnail upload failed.");
 //     }
+//   };
+
+//   // Handle multiple category selection
+//   const handleMulticategoryChange = (e) => {
+//     const { value, checked } = e.target;
+//     setMulticategory((prev) =>
+//       checked ? [...prev, value] : prev.filter((id) => id !== value)
+//     );
 //   };
 
 //   return (
@@ -173,7 +179,7 @@
 //       <form onSubmit={handleSubmit} className="form-section">
 //         <div className="section-wrapper">
 //           <h3>Product Details</h3>
-//           <p>shop :  {shopname}</p>
+//           <p>shop : {shopname}</p>
 //           <input
 //             type="text"
 //             className="add_product_input_filed"
@@ -182,83 +188,9 @@
 //             onChange={(e) => setName(e.target.value)}
 //           />
 //         </div>
-//         {user?.role === "admin" && (
-//           <div className="section-wrapper">
-//             <h3>Shop Prices</h3>
-//             {shopPrices.map((shopPrice, index) => (
-//               <div key={index} className="shop-price-row">
-//                 <input
-//                   type="text"
-//                   className="add_product_input_filed"
-//                   placeholder="Shop Name"
-//                   value={shopPrice.shopname}
-//                   onChange={(e) => {
-//                     const updatedShopPrices = [...shopPrices];
-//                     updatedShopPrices[index].shopname = e.target.value;
-//                     setShopPrices(updatedShopPrices);
-//                   }}
-//                 />
-//                 <input
-//                   type="number"
-//                   className="add_product_input_filed"
-//                   placeholder="Price"
-//                   value={shopPrice.price}
-//                   onChange={(e) => {
-//                     const updatedShopPrices = [...shopPrices];
-//                     updatedShopPrices[index].price = e.target.value;
-//                     setShopPrices(updatedShopPrices);
-//                   }}
-//                 />
-//                 <input
-//                   type="number"
-//                   className="add_product_input_filed"
-//                   placeholder="Position ID"
-//                   value={shopPrice.poistionId}
-//                   onChange={(e) => {
-//                     const updatedShopPrices = [...shopPrices];
-//                     updatedShopPrices[index].poistionId = e.target.value;
-//                     setShopPrices(updatedShopPrices);
-//                   }}
-//                 />
-//                 {/* ourprice */}
-//                 <input
-//                   type="number"
-//                   className="add_product_input_filed"
-//                   placeholder="ourprice"
-//                   value={shopPrice.ourprice}
-//                   onChange={(e) => {
-//                     const updatedShopPrices = [...shopPrices];
-//                     updatedShopPrices[index].ourprice = e.target.value;
-//                     setShopPrices(updatedShopPrices);
-//                   }}
-//                 />
-//                 <button
-//                   type="button"
-//                   className="btn btn-danger"
-//                   onClick={() => {
-//                     const updatedShopPrices = shopPrices.filter((_, i) => i !== index);
-//                     setShopPrices(updatedShopPrices);
-//                   }}
-//                 >
-//                   Remove
-//                 </button>
-//               </div>
-//             ))}
-//             <button
-//               type="button"
-//               className="btn btn-warning"
-//               onClick={() => setShopPrices([...shopPrices, { shopname: "", price: "" }])}
-//             >
-//               Add Shop Price
-//             </button>
-//           </div>
-//         )}
-
 
 //         <div className="section-wrapper">
 //           <h3>Price & Discount</h3>
-
-
 //           <input
 //             type="number"
 //             className="add_product_input_filed"
@@ -280,7 +212,6 @@
 //             value={calculateFinalPrice(price, discountPercentage)}
 //             readOnly
 //           />
-//           {/* setOurprice */}
 //           <input
 //             type="number"
 //             className="add_product_input_filed"
@@ -288,9 +219,16 @@
 //             value={ourprice}
 //             onChange={(e) => setOurprice(e.target.value)}
 //           />
-
 //         </div>
-
+//         <div className="section-wrapper">
+//           <input
+//             type="number"
+//             className="add_product_input_filed"
+//             placeholder="min order quantity"
+//             value={minorderquantity}
+//             onChange={(e) => setMinorderquantity(e.target.value)}
+//           />
+//         </div>
 //         <div className="section-wrapper">
 //           <h3>Product Thumbnail</h3>
 //           <input
@@ -301,20 +239,21 @@
 //           {thumbnail && <img src={thumbnail} alt="Thumbnail" width="100" />}
 //         </div>
 
+
 //         <div className="section-wrapper">
-//           <h3>Category</h3>
-//           <select
-//             className="add_product_input_filed"
-//             value={category}
-//             onChange={(e) => setCategory(e.target.value)}
-//           >
-//             <option value="">Select Category</option>
-//             {categories.map((cat) => (
-//               <option key={cat._id} value={cat._id}>
-//                 {cat.name}
-//               </option>
-//             ))}
-//           </select>
+//           <h3>Multiple Categories</h3>
+//           {categories.map((cat) => (
+//             <div key={cat._id} className="checkbox-wrapper">
+//               <input
+//                 type="checkbox"
+//                 id={cat._id}
+//                 value={cat._id}
+//                 checked={multicategory.includes(cat._id)}
+//                 onChange={handleMulticategoryChange}
+//               />
+//               <label htmlFor={cat._id}>{cat.name}</label>
+//             </div>
+//           ))}
 //         </div>
 
 //         <button type="submit" className="admin_add_product_button">
@@ -327,7 +266,6 @@
 
 // export default AdminAddProduct;
 
-
 import React, { useState, useEffect } from "react";
 import "../../adminCss/product/adminaddProduct.css";
 import { makeApi } from "../../api/callApi";
@@ -339,19 +277,18 @@ import Loader from "../../components/loader/loader";
 
 function AdminAddProduct() {
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [Loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [shopPrices, setShopPrices] = useState([]);
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [thumbnail, setThumbnail] = useState("");
-  const [category, setCategory] = useState(""); // For single category
   const [multicategory, setMulticategory] = useState([]); // For multiple categories
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]); // For selected subcategories
   const [availableTimes, setAvailableTimes] = useState([]);
   const [minorderquantity, setMinorderquantity] = useState("");
-  const [packof, setPackof] = useState("");
   const [ourprice, setOurprice] = useState("");
-  const [FinalPrice, setFinalPrice] = useState(0);
   const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
   const [user, setUser] = useState(null);
   const [shopname, setShopname] = useState("");
@@ -360,15 +297,15 @@ function AdminAddProduct() {
   const fetchCategory = async () => {
     try {
       setLoading(true);
-      const response = await makeApi("/api/get-all-categories", "GET");
+      const response = await makeApi("/api/get-all-categories-with-subcategories", "GET");
       if (user.role === "admin") {
-        setCategories(response.data);
+        setCategories(response.data.services);
       } else {
         // Ensure user data is loaded before accessing it
         const accessibleCategoryIds = user?.categoryacess || [];
 
         // Filter categories based on user's access
-        const accessibleCategories = response.data.filter(category =>
+        const accessibleCategories = response.data.services.filter(category =>
           accessibleCategoryIds.includes(category._id)
         );
         setCategories(accessibleCategories);
@@ -377,6 +314,16 @@ function AdminAddProduct() {
       console.log("Error fetching categories:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Fetch subcategories based on selected category
+  const fetchSubcategories = async (categoryId) => {
+    try {
+      const response = await makeApi(`/api/get-subcategories?categoryId=${categoryId}`, "GET");
+      setSubcategories((prev) => ({ ...prev, [categoryId]: response.data.subservices }));
+    } catch (error) {
+      console.log("Error fetching subcategories:", error);
     }
   };
 
@@ -415,7 +362,6 @@ function AdminAddProduct() {
     const requiredFields = [];
     if (!name) requiredFields.push("Name");
     if (!price && shopPrices.length === 0) requiredFields.push("Price or Shop Prices");
-    if (!category && multicategory.length === 0) requiredFields.push("Category");
     if (!thumbnail) requiredFields.push("Thumbnail");
 
     if (requiredFields.length > 0) {
@@ -436,11 +382,10 @@ function AdminAddProduct() {
         discountPercentage,
         FinalPrice: finalPrice,
         thumbnail,
-        // category,
         multicategory, // Multiple categories
+        subcategory: selectedSubcategories, // Array of subcategory IDs
         availableTimes,
         minorderquantity,
-        packof,
         ourprice,
       });
 
@@ -452,12 +397,10 @@ function AdminAddProduct() {
       setPrice("");
       setDiscountPercentage(0);
       setThumbnail("");
-      setCategory("");
       setMulticategory([]); // Reset multiple categories
+      setSelectedSubcategories([]); // Reset selected subcategories
       setAvailableTimes([]);
       setMinorderquantity("");
-      setPackof("");
-      setFinalPrice(0);
       setThumbnailUploadProgress(0);
     } catch (error) {
       toast.error("Failed to add product.");
@@ -479,11 +422,29 @@ function AdminAddProduct() {
     }
   };
 
-  // Handle multiple category selection
-  const handleMulticategoryChange = (e) => {
-    const { value, checked } = e.target;
-    setMulticategory((prev) =>
-      checked ? [...prev, value] : prev.filter((id) => id !== value)
+  // Handle category selection
+  const handleCategoryChange = (e, categoryId) => {
+    const { checked } = e.target;
+    if (checked) {
+      setMulticategory((prev) => [...prev, categoryId]);
+      fetchSubcategories(categoryId); // Fetch subcategories for the selected category
+    } else {
+      setMulticategory((prev) => prev.filter((id) => id !== categoryId));
+      setSelectedSubcategories((prev) => {
+        const updatedSubcategories = { ...prev };
+        delete updatedSubcategories[categoryId]; // Remove subcategories for the deselected category
+        return updatedSubcategories;
+      });
+    }
+  };
+
+  // Handle subcategory selection
+  const handleSubcategoryChange = (e, subcategoryId) => {
+    const { checked } = e.target;
+    setSelectedSubcategories((prev) =>
+      checked
+        ? [...prev, subcategoryId] // Add subcategory ID
+        : prev.filter((id) => id !== subcategoryId) // Remove subcategory ID
     );
   };
 
@@ -555,7 +516,15 @@ function AdminAddProduct() {
             onChange={(e) => setOurprice(e.target.value)}
           />
         </div>
-
+        <div className="section-wrapper">
+          <input
+            type="number"
+            className="add_product_input_filed"
+            placeholder="min order quantity"
+            value={minorderquantity}
+            onChange={(e) => setMinorderquantity(e.target.value)}
+          />
+        </div>
         <div className="section-wrapper">
           <h3>Product Thumbnail</h3>
           <input
@@ -567,22 +536,6 @@ function AdminAddProduct() {
         </div>
 
         <div className="section-wrapper">
-          <h3>Category</h3>
-          <select
-            className="add_product_input_filed"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Select Category</option>
-            {categories.map((cat) => (
-              <option key={cat._id} value={cat._id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="section-wrapper">
           <h3>Multiple Categories</h3>
           {categories.map((cat) => (
             <div key={cat._id} className="checkbox-wrapper">
@@ -591,12 +544,38 @@ function AdminAddProduct() {
                 id={cat._id}
                 value={cat._id}
                 checked={multicategory.includes(cat._id)}
-                onChange={handleMulticategoryChange}
+                onChange={(e) => {
+                  const { checked } = e.target;
+                  setMulticategory((prev) =>
+                    checked ? [...prev, cat._id] : prev.filter((id) => id !== cat._id)
+                  );
+                  if (checked) {
+                    fetchSubcategories(cat._id); // Fetch subcategories for the selected category
+                  }
+                }}
               />
               <label htmlFor={cat._id}>{cat.name}</label>
+
+              {multicategory.includes(cat._id) && subcategories[cat._id] && (
+                <div className="subcategory-wrapper">
+                  {subcategories[cat._id].map((subcat) => (
+                    <div key={subcat._id} className="subcategory-checkbox">
+                      <input
+                        type="checkbox"
+                        id={subcat._id}
+                        value={subcat._id}
+                        checked={selectedSubcategories.includes(subcat._id)}
+                        onChange={(e) => handleSubcategoryChange(e, subcat._id)}
+                      />
+                      <label htmlFor={subcat._id}>{subcat.name}</label>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
-        </div>
+        </div>;
+       
 
         <button type="submit" className="admin_add_product_button">
           Add Product
