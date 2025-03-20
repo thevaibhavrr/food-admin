@@ -1033,7 +1033,7 @@ const EditCategory = () => {
         image: newSubcategoryImage,
         categoryId: Id,
       };
-      const response = await makeApi("/api/create-subcategory", "POST", newSubcategoryData);
+      const response = await makeApi("/api/add-subcategory", "POST", newSubcategoryData);
       if (response.status === 201) {
         alert("Subcategory created successfully");
         const subcategoriesResponse = await makeApi(`/api/get-subcategories?categoryId=${Id}`, "GET");
