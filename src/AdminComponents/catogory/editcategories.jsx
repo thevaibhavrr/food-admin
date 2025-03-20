@@ -1031,10 +1031,9 @@ const EditCategory = () => {
         name: newSubcategoryName,
         type: newSubcategoryType,
         image: newSubcategoryImage,
-        categoryId: Id,
+        serviceId: Id,
       };
       const response = await makeApi("/api/add-subcategory", "POST", newSubcategoryData);
-      if (response.status === 201) {
         alert("Subcategory created successfully");
         const subcategoriesResponse = await makeApi(`/api/get-subcategories?categoryId=${Id}`, "GET");
         setSubcategories(subcategoriesResponse.data.subservices);
@@ -1042,7 +1041,6 @@ const EditCategory = () => {
         setNewSubcategoryName("");
         setNewSubcategoryType("");
         setNewSubcategoryImage("");
-      }
     } catch (error) {
       console.error("Error creating subcategory:", error);
       setErrorMessage("Error creating subcategory. Please try again.");
