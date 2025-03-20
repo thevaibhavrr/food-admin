@@ -1026,6 +1026,7 @@ const EditCategory = () => {
 
   const handleAddSubcategory = async (e) => {
     e.preventDefault();
+    console.log(Id);
     try {
       const newSubcategoryData = {
         name: newSubcategoryName,
