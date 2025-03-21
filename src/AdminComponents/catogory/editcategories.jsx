@@ -587,7 +587,7 @@ const EditCategory = () => {
 
   const handleDeleteSubcategory = async (subcategoryId) => {
     try {
-      const response = await makeApi(`/delete-subcategory/${subcategoryId}`, "DELETE");
+      const response = await makeApi(`/api/delete-subcategory/${subcategoryId}`, "DELETE");
       if (response.status === 200) {
         alert("Subcategory deleted successfully");
         const subcategoriesResponse = await makeApi(`/api/get-subcategories?categoryId=${Id}`, "GET");
