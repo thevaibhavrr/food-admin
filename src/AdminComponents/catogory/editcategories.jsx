@@ -476,7 +476,7 @@ const EditCategory = () => {
       const response = await makeApi(`/api/update-category/${Id}`, "PUT", updatedFormData);
       if (response.status === 200) {
         alert("Category updated successfully");
-        navigate("/admin/all-categories");
+        // navigate("/admin/all-categories");
       }
     } catch (error) {
       console.error("Error updating category:", error);
@@ -657,9 +657,10 @@ const EditCategory = () => {
               <select
                 id="closed"
                 className="form-select"
-                value={closed}
-                onChange={(e) => setClosed(e.target.value)}
+                value={active}
+                onChange={(e) => setActive(e.target.value)}
               >
+                <option value="true">Select Status</option>
                 <option value="false">false</option>
                 <option value="true">true</option>
               </select>

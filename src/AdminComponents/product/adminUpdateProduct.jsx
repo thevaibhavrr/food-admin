@@ -42,6 +42,7 @@ function UpdateProduct() {
     active: "",
     setOurprice: "",
     shopPrices: [],
+    rating: "",
   });
 
   const [user, setUser] = useState(null);
@@ -112,6 +113,7 @@ function UpdateProduct() {
             active: productData?.active || "", // Ensure 'active' status is set
             ourprice: productData?.ourprice || "",
             shopPrices: productData?.shopPrices || [],
+            rating: productData?.rating || "",
           });
 
           // Fetch categories
@@ -175,8 +177,7 @@ function UpdateProduct() {
 
         if (!isNaN(price) && !isNaN(discountPercentage)) {
           let finalPrice = price - (price * discountPercentage) / 100;
-
-          // Round the final price to the nearest whole number
+            // Round the final price to the nearest whole number
           finalPrice = Math.round(finalPrice);
 
           newFormData.FinalPrice = finalPrice;
@@ -371,6 +372,15 @@ function UpdateProduct() {
                     readOnly
                   />
                 </div>
+              </div>
+              <div className="form-group">
+                <label>Rating:</label>
+                <input
+                  type="number"
+                  name="rating"
+                  value={formData.rating}
+                  onChange={handleChange}
+                />
               </div>
 
               {/* Pricing Section */}

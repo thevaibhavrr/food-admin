@@ -158,7 +158,7 @@ function Getallcatogory() {
     async function fetchCategories() {
       try {
         setLoading(true);
-        const response = await makeApi("/api/get-all-categories", "GET");
+        const response = await makeApi("/api/get-all-categories-admin", "GET");
         const sortedCategories = response.data.sort(
           (a, b) => (a.poistionId || 999) - (b.poistionId || 999)
         );
