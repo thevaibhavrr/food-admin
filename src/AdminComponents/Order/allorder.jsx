@@ -272,6 +272,7 @@ import { makeApi } from "../../api/callApi";
 import UpdateOrderPopup from "./updateorder";
 import Loader from "../../components/loader/loader";
 import UpdateOrderProductPopup from "./updateproduct";
+import { Link } from "react-router-dom";
 
 function AllOrder() {
   const [loading, setLoading] = useState(false);
@@ -536,6 +537,18 @@ function AllOrder() {
                       </div>
                     )}
                   </div>
+
+                  <div>
+                    {user?.role === "admin" && order.custmoreId && (
+                      <strong className="p-3 mt-4" >
+                        custmoreId:{" "}
+                        <Link to={`/admin/custmoreorder/${order.custmoreId} `} target="_blank">
+                          {order.custmoreId}
+                        </Link>
+                      </strong>
+                    )}
+                  </div>
+
                 </div>
               ))
             )}
